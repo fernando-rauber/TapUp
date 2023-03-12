@@ -1,4 +1,4 @@
-package uk.fernando.tapup.ui.theme
+package uk.fernando.tapup.theme
 
 import androidx.compose.ui.graphics.Color
 

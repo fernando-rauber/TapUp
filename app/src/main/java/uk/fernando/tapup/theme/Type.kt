@@ -1,4 +1,4 @@
-package uk.fernando.tapup.ui.theme
+package uk.fernando.tapup.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
