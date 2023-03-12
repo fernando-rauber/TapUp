@@ -1,4 +1,4 @@
-package uk.fernando.tapup
+package uk.fernando.tapup.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
