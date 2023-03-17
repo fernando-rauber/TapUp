@@ -1,11 +1,14 @@
 package uk.fernando.tapup.di
 
 
+import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import uk.fernando.logger.AndroidLogger
 import uk.fernando.logger.MyLogger
 import uk.fernando.tapup.BuildConfig
+import uk.fernando.tapup.datastore.PrefsStore
+import uk.fernando.tapup.datastore.PrefsStoreImpl
 
 object KoinModule {
 
@@ -16,8 +19,8 @@ object KoinModule {
     fun allModules(): List<Module> = listOf(coreModule, repositoryModule, useCaseModule, viewModelModule)
 
     private val coreModule = module {
-
         single { getAndroidLogger() }
+        single<PrefsStore> { PrefsStoreImpl(androidApplication()) }
     }
 
 
