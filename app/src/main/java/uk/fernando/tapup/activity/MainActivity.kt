@@ -3,22 +3,30 @@ package uk.fernando.tapup.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.ui.Modifier
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import uk.fernando.tapup.navigation.Directions
+import uk.fernando.tapup.navigation.buildGraph
 import uk.fernando.tapup.theme.TapUpTheme
 
 
+@OptIn(ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            val controller = rememberNavController()
+
             TapUpTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Text(text = "Hello!")
+
+                NavHost(
+                    navController = controller,
+                    startDestination = Directions.home.path
+                ) {
+                    buildGraph(controller)
                 }
             }
         }

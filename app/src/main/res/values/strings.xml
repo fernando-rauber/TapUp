@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">TapUp</string>
+    <string name="app_name">Tap Up</string>
+
+    // Home
+    <string name="play_action">Play</string>
+    <string name="score_action">Score</string>
+
+
+    // Settings
+    <string name="settings_title">Settings</string>
+    <string name="sound">Sound Enabled</string>
+    <string name="sound_subtext">Enable sound effects</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="version">Version %s</string>
 </resources>
