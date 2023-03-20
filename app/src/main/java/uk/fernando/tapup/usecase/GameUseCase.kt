@@ -1,24 +1,52 @@
 package uk.fernando.tapup.usecase
 
-import androidx.compose.runtime.mutableStateOf
 import uk.fernando.logger.MyLogger
-import uk.fernando.util.ext.TAG
-import kotlin.math.sqrt
 
 class GameUseCase(private val logger: MyLogger) {
 
-    var currentMaxNumber = 1
+    private var currentMaxNumber = 1
+    private val numberList = mutableListOf<Int>()
+    private  var nextNumberIndex = -1
 
-    fun  generateNextNumbers() : List<Int>{
-
-        return emptyList()
+    init {
+        generateNextNumbers()
     }
 
     fun setNewNumber(number: Int) : Boolean{
         return if(number > currentMaxNumber) {
             currentMaxNumber = number
+            generateNextNumbers()
             true
         } else
             false
+    }
+
+    fun getNextNumber() : Int{
+        nextNumberIndex++
+
+        if(nextNumberIndex > (numberList.size - 1))
+            nextNumberIndex = 0
+
+        return numberList[nextNumberIndex]
+    }
+
+     private fun  generateNextNumbers(){
+         numberList.clear()
+
+        for (i in 1..4) {
+            numberList.add(createNewNumber())
+        }
+
+         if(numberList.firstOrNull{ it > currentMaxNumber} == null)
+             generateNextNumbers()
+    }
+
+    private fun createNewNumber(): Int {
+        val newNumber = (currentMaxNumber - 10..currentMaxNumber + 20).random()
+
+        return if (numberList.contains(newNumber))
+            createNewNumber()
+        else
+            newNumber
     }
 }

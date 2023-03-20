@@ -1,5 +1,7 @@
 package uk.fernando.tapup.screen
 
+import androidx.compose.animation.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -7,16 +9,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.tapup.R
-import uk.fernando.tapup.components.NavigationTopBar
 import uk.fernando.tapup.ext.timerFormat
 import uk.fernando.tapup.viewmodel.GameViewModel
 import uk.fernando.util.component.MyIconButton
@@ -40,31 +43,32 @@ fun GamePage(
 
         // Last selected number
         Text(
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .align(CenterHorizontally),
             text = "${viewModel.lastNumberSelected.value}",
-            modifier = Modifier.align(CenterHorizontally),
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
 
         // Rotating numbers
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(.6f),
-            horizontalAlignment = CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
-
-        }
+        SlideNumbers(
+            viewModel = viewModel,
+            onNumberSelected = viewModel::onNumberClick
+        )
     }
 }
 
 @Composable
 private fun TopBar(viewModel: GameViewModel, onCloseClick: () -> Unit) {
-    Box(Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier.padding(top = 5.dp, start = 5.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, top = 7.dp)
+    ) {
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 modifier = Modifier.size(36.dp),
                 painter = painterResource(id = R.drawable.ic_timer),
@@ -86,5 +90,37 @@ private fun TopBar(viewModel: GameViewModel, onCloseClick: () -> Unit) {
             onClick = onCloseClick,
             tint = MaterialTheme.colorScheme.onBackground
         )
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Unit) {
+
+    AnimatedContent(
+        targetState = viewModel.currentNumber.value,
+        modifier = Modifier.fillMaxSize(),
+        transitionSpec = {
+            (slideInHorizontally { height -> height } + fadeIn() with
+                    slideOutHorizontally { height -> -height } + fadeOut()).using(
+                SizeTransform(clip = false)
+            )
+        }
+    ) { number ->
+
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .clickable { onNumberSelected(number) }) {
+            Text(
+                modifier = Modifier.align(Center),
+                text = "$number",
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+                fontSize = 70.sp,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+
     }
 }
