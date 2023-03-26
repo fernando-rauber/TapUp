@@ -8,19 +8,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.tapup.R
 import uk.fernando.tapup.ext.timerFormat
+import uk.fernando.tapup.util.GameStatus
 import uk.fernando.tapup.viewmodel.GameViewModel
 import uk.fernando.util.component.MyIconButton
 
@@ -29,6 +33,8 @@ fun GamePage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: GameViewModel = getViewModel()
 ) {
+
+    val coroutine = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         viewModel.startGame()
@@ -40,6 +46,8 @@ fun GamePage(
             viewModel = viewModel,
             onCloseClick = { navController.popBackStack() }
         )
+
+        MistakesLeft(viewModel)
 
         // Last selected number
         Text(
@@ -55,7 +63,23 @@ fun GamePage(
         // Rotating numbers
         SlideNumbers(
             viewModel = viewModel,
-            onNumberSelected = viewModel::onNumberClick
+            onNumberSelected = {
+                coroutine.launch {
+                    viewModel.onNumberClick(it).collect { status ->
+                        when(status){
+                            GameStatus.CORRECT -> {
+
+                            }
+                            GameStatus.WRONG -> {
+
+                            }
+                            else -> {
+
+                            }
+                        }
+                    }
+                }
+            }
         )
     }
 }
@@ -90,6 +114,28 @@ private fun TopBar(viewModel: GameViewModel, onCloseClick: () -> Unit) {
             onClick = onCloseClick,
             tint = MaterialTheme.colorScheme.onBackground
         )
+    }
+}
+
+@Composable
+private fun MistakesLeft(viewModel: GameViewModel) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            modifier = Modifier.padding(start = 2.dp),
+            text = stringResource(R.string.mistakes_left),
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+        for (i in 1..viewModel.mistakeLeft.value) {
+            Icon(
+                modifier = Modifier.size(36.dp),
+                painter = painterResource(R.drawable.ic_close),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground
+            )
+        }
     }
 }
 

@@ -7,6 +7,7 @@ class GameUseCase(private val logger: MyLogger) {
     private var currentMaxNumber = 1
     private val numberList = mutableListOf<Int>()
     private  var nextNumberIndex = -1
+    private var mistakesLeft = 3
 
     init {
         generateNextNumbers()
@@ -17,9 +18,13 @@ class GameUseCase(private val logger: MyLogger) {
             currentMaxNumber = number
             generateNextNumbers()
             true
-        } else
+        } else {
+            mistakesLeft--
             false
+        }
     }
+
+    fun getMistakesLeft() = mistakesLeft
 
     fun getNextNumber() : Int{
         nextNumberIndex++

@@ -1,26 +1,37 @@
 package uk.fernando.tapup.viewmodel
 
 import android.os.CountDownTimer
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import kotlinx.coroutines.flow.flow
 import uk.fernando.tapup.usecase.GameUseCase
+import uk.fernando.tapup.util.GameStatus
 
 open class GameViewModel(private val useCase: GameUseCase) : BaseViewModel() {
 
     val lastNumberSelected = mutableStateOf(1)
     val currentNumber = mutableStateOf(0)
+    val mistakeLeft = mutableStateOf(3)
+    val gameStatus = mutableStateOf(GameStatus.INIT)
 
     fun startGame() {
         chronometer.start()
+
+        mistakeLeft.value = useCase.getMistakesLeft()
     }
 
-    fun onNumberClick(number: Int) {
+    fun onNumberClick(number: Int) = flow {
         val isNewNumberHigher = useCase.setNewNumber(number)
+
         if (isNewNumberHigher) {
             lastNumberSelected.value = number
-        } else {
+            emit(GameStatus.CORRECT)
+        } else{
+            mistakeLeft.value = useCase.getMistakesLeft()
+            emit(GameStatus.WRONG)
+
             // Game over
+            if (mistakeLeft.value <= 0)
+                gameStatus.value = GameStatus.GAME_OVER
         }
     }
 
@@ -34,6 +45,7 @@ open class GameViewModel(private val useCase: GameUseCase) : BaseViewModel() {
 
         override fun onFinish() {
             chronometerSeconds.value = 0
+            gameStatus.value = GameStatus.END_GAME
         }
     }
 }

@@ -5,6 +5,9 @@
     <string name="play_action">Play</string>
     <string name="score_action">Score</string>
 
+    // Game
+    <string name="mistakes_left">Mistakes Left:</string>
+
 
     // Settings
     <string name="settings_title">Settings</string>
