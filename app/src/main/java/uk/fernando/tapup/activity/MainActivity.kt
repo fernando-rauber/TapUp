@@ -9,12 +9,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.navigation.buildGraph
 import uk.fernando.tapup.theme.TapUpTheme
 
 
 @OptIn(ExperimentalAnimationApi::class)
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

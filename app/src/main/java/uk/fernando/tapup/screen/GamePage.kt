@@ -19,9 +19,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
 import uk.fernando.tapup.R
 import uk.fernando.tapup.ext.timerFormat
 import uk.fernando.tapup.util.GameStatus
@@ -31,7 +31,7 @@ import uk.fernando.util.component.MyIconButton
 @Composable
 fun GamePage(
     navController: NavController = NavController(LocalContext.current),
-    viewModel: GameViewModel = getViewModel()
+    viewModel: GameViewModel = hiltViewModel()
 ) {
 
     val coroutine = rememberCoroutineScope()

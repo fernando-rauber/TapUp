@@ -2,11 +2,14 @@ package uk.fernando.tapup.viewmodel
 
 import android.os.CountDownTimer
 import androidx.compose.runtime.mutableStateOf
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flow
 import uk.fernando.tapup.usecase.GameUseCase
 import uk.fernando.tapup.util.GameStatus
+import javax.inject.Inject
 
-open class GameViewModel(private val useCase: GameUseCase) : BaseViewModel() {
+@HiltViewModel
+class GameViewModel @Inject constructor(private val useCase: GameUseCase) : BaseViewModel() {
 
     val lastNumberSelected = mutableStateOf(1)
     val currentNumber = mutableStateOf(0)
@@ -25,7 +28,7 @@ open class GameViewModel(private val useCase: GameUseCase) : BaseViewModel() {
         if (isNewNumberHigher) {
             lastNumberSelected.value = number
             emit(GameStatus.CORRECT)
-        } else{
+        } else {
             mistakeLeft.value = useCase.getMistakesLeft()
             emit(GameStatus.WRONG)
 
