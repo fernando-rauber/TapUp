@@ -1,11 +1,10 @@
 package uk.fernando.tapup.screen
 
+import android.media.MediaPlayer
 import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -39,6 +38,7 @@ import uk.fernando.util.component.MyButton
 import uk.fernando.util.component.MyDialog
 import uk.fernando.util.component.MyIconButton
 import uk.fernando.util.ext.clickableSingle
+import uk.fernando.util.ext.playAudio
 import uk.fernando.util.ext.safeNav
 import java.util.*
 
@@ -48,6 +48,8 @@ fun GamePage(
     viewModel: GameViewModel = hiltViewModel(),
 ) {
     val coroutine = rememberCoroutineScope()
+    val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
+    val soundWrong = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
 
     LaunchedEffect(Unit) {
         viewModel.startGame()
@@ -81,15 +83,9 @@ fun GamePage(
                     coroutine.launch {
                         viewModel.onNumberClick(it).collect { status ->
                             when (status) {
-                                GameStatus.CORRECT -> {
-
-                                }
-                                GameStatus.WRONG -> {
-
-                                }
-                                else -> {
-
-                                }
+                                GameStatus.CORRECT -> soundCorrect.playAudio()
+                                GameStatus.WRONG -> soundWrong.playAudio()
+                                else -> {}
                             }
                         }
                     }
@@ -100,7 +96,6 @@ fun GamePage(
         // Dialogs
         DialogResult(
             viewModel = viewModel,
-            isSoundEnable = true,
             onClose = { score ->
                 navController.popBackStack()
                 navController.safeNav(Directions.score.withArgs("$score"))
@@ -201,12 +196,12 @@ private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Un
 @Composable
 fun DialogResult(
     viewModel: GameViewModel,
-    isSoundEnable: Boolean,
     onClose: (Int) -> Unit,
 ) {
+    val context = LocalContext.current
     MyAnimatedVisibility(viewModel.gameStatus.value == GameStatus.END_GAME) {
 
-//        LaunchedEffect(Unit) { MediaPlayer.create(context, if (level.star > 0) R.raw.sound_finish else R.raw.sound_game_over).playAudio(isSoundEnable) }
+        LaunchedEffect(Unit) { MediaPlayer.create(context, R.raw.sound_finish).playAudio() }
 
 //                fullScreenAd.showAdvert()
 

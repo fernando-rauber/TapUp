@@ -33,8 +33,10 @@ class GameViewModel @Inject constructor(private val useCase: GameUseCase) : Base
             emit(GameStatus.WRONG)
 
             // Game over
-            if (mistakeLeft.value <= 0)
+            if (mistakeLeft.value <= 0) {
                 chronometer.onFinish()
+                chronometer.cancel()
+            }
         }
     }
 
