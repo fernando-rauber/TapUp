@@ -34,7 +34,7 @@ class GameViewModel @Inject constructor(private val useCase: GameUseCase) : Base
 
             // Game over
             if (mistakeLeft.value <= 0)
-                gameStatus.value = GameStatus.GAME_OVER
+                chronometer.onFinish()
         }
     }
 

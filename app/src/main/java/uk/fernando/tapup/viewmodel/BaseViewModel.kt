@@ -9,10 +9,10 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel : ViewModel() {
 
     fun launchDefault(block: suspend () -> Unit) {
-        viewModelScope.launch { block() }
+        viewModelScope.launch(Dispatchers.Default) { block() }
     }
 
-    fun launchIO(block: suspend () -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) { block() }
+    fun launch(block: suspend () -> Unit) {
+        viewModelScope.launch { block() }
     }
 }

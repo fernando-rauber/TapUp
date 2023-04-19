@@ -10,6 +10,7 @@ import uk.fernando.logger.AndroidLogger
 import uk.fernando.logger.MyLogger
 import uk.fernando.tapup.BaseApplication
 import uk.fernando.tapup.BuildConfig
+import uk.fernando.tapup.datastore.PrefsStore
 import uk.fernando.tapup.datastore.PrefsStoreImpl
 import javax.inject.Singleton
 
@@ -25,7 +26,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideLogger() : MyLogger {
+    fun provideLogger(): MyLogger {
         return if (BuildConfig.DEBUG)
             AndroidLogger(MyLogger.LogLevel.DEBUG)
         else
@@ -34,6 +35,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideSharePreferences(@ApplicationContext app: Context) : PrefsStoreImpl =  PrefsStoreImpl(app)
+    fun provideSharePreferences(@ApplicationContext app: Context): PrefsStore = PrefsStoreImpl(app)
 
 }

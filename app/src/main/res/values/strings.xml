@@ -7,7 +7,16 @@
 
     // Game
     <string name="mistakes_left">Mistakes Left:</string>
+    <string name="well_done">Well Done</string>
+    <string name="see_score">See Score</string>
 
+
+    // Score
+    <string name="global_score">Global Score</string>
+    <string name="my_score">My Score</string>
+    <string name="score">Score</string>
+    <string name="close_action">Close</string>
+    <string name="name">Name</string>
 
     // Settings
     <string name="settings_title">Settings</string>
@@ -15,4 +24,5 @@
     <string name="sound_subtext">Enable sound effects</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="version">Version %s</string>
+
 </resources>
