@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1030662890267",
+    "project_id": "tapup-e549c",
+    "storage_bucket": "tapup-e549c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030662890267:android:42400fe82c8b3049b829be",
+        "android_client_info": {
+          "package_name": "uk.fernando.tapup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030662890267-8oq7gdk026hr8dfmqitrg19i2evr23sh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDS1Y_tkwaXFMdYbJ5mQMekRlovTpEMXt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030662890267-8oq7gdk026hr8dfmqitrg19i2evr23sh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
