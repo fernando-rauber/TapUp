@@ -25,8 +25,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders["enableCrashReporting"] = false
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
+        }
         release {
             minifyEnabled false
+            manifestPlaceholders["enableCrashReporting"] = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -56,6 +63,7 @@ android {
 dependencies {
     implementation 'androidx.core:core-ktx:1.10.0'
 
+    implementation 'com.github.fernando-rauber.mylibrary:advertising:1.5'
     implementation 'com.github.fernando-rauber.mylibrary:logger:1.4.4'
     implementation 'com.github.fernando-rauber.mylibrary:util:1.5'
 

@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import uk.fernando.advertising.AdInterstitial
 import uk.fernando.tapup.R
+import uk.fernando.tapup.activity.MainActivity
 import uk.fernando.tapup.components.SimpleCard
 import uk.fernando.tapup.ext.timerFormat
 import uk.fernando.tapup.navigation.Directions
@@ -48,6 +50,7 @@ fun GamePage(
     viewModel: GameViewModel = hiltViewModel(),
 ) {
     val coroutine = rememberCoroutineScope()
+    val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_interstitial_end_level))
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundWrong = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
 
@@ -96,6 +99,7 @@ fun GamePage(
         // Dialogs
         DialogResult(
             viewModel = viewModel,
+            fullScreenAd = fullScreenAd,
             onClose = { score ->
                 navController.popBackStack()
                 navController.safeNav(Directions.score.withArgs("$score"))
@@ -196,14 +200,16 @@ private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Un
 @Composable
 fun DialogResult(
     viewModel: GameViewModel,
+    fullScreenAd: AdInterstitial,
     onClose: (Int) -> Unit,
 ) {
     val context = LocalContext.current
     MyAnimatedVisibility(viewModel.gameStatus.value == GameStatus.END_GAME) {
 
-        LaunchedEffect(Unit) { MediaPlayer.create(context, R.raw.sound_finish).playAudio() }
-
-//                fullScreenAd.showAdvert()
+        LaunchedEffect(Unit) {
+            fullScreenAd.showAdvert()
+            MediaPlayer.create(context, R.raw.sound_finish).playAudio()
+        }
 
         MyDialog {
             Column(

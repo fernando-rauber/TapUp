@@ -12,10 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TapUp"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5791754615168338~4988902874" />
+
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${enableCrashReporting}" />
+
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.TapUp">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TapUp"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

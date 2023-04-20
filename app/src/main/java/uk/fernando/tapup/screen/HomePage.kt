@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -11,9 +12,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import uk.fernando.advertising.component.AdBanner
+import uk.fernando.tapup.R
 import uk.fernando.tapup.components.NavigationTopBar
 import uk.fernando.tapup.navigation.Directions
-import uk.fernando.tapup.R
 import uk.fernando.util.component.MyButton
 import uk.fernando.util.component.MyIconButton
 import uk.fernando.util.ext.safeNav
@@ -34,6 +36,8 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
                 )
             }
         )
+
+
 
         Column(
             modifier = Modifier
@@ -59,6 +63,14 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
                 text = stringResource(R.string.score_action).uppercase(),
                 onClick = { navController.safeNav(Directions.score.withArgs("0")) }
             )
+        }
+
+        Box(
+            modifier = Modifier
+                .align(BottomCenter)
+                .padding(bottom = 8.dp)
+        ) {
+            AdBanner(unitId = R.string.ad_banner_home)
         }
     }
 }
