@@ -37,7 +37,18 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
     }
 
     override suspend fun userName(): String {
-        return dataStore.data.map { prefs -> prefs[PreferencesKeys.USER_NAME] ?: "Default" }.first()
+        return dataStore.data.map { prefs ->
+            if (prefs[PreferencesKeys.USER_NAME] != null)
+                prefs[PreferencesKeys.USER_NAME]!!
+            else {
+                var userName = android.os.Build.MODEL
+                if (userName == null || userName.trim().isEmpty())
+                    userName = "Player_${(100..999).random()}"
+
+                storeUserName(userName.take(10))
+                userName
+            }
+        }.first()
     }
 
     override suspend fun storeScore(score: Int) {
