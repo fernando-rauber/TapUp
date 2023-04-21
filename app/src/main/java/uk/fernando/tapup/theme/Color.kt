@@ -22,4 +22,4 @@ val whiteBackGround = Color(0xFFEEEEEE)
 val lightDark = Color(0xFF1C2939)
 val dark = Color(0xFF141C28)
 
-val steel = Color(0xFF8A8B99)
+val background = Color(0xFF002d5c)
