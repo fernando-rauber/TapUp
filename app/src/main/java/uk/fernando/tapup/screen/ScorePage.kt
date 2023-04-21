@@ -19,8 +19,8 @@ import uk.fernando.tapup.components.SimpleCard
 import uk.fernando.tapup.model.ScoreModel
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.viewmodel.ScoreViewModel
-import uk.fernando.util.component.MyButton
-import uk.fernando.util.ext.safeNav
+import uk.fernando.uikit.component.MyButton
+import uk.fernando.uikit.ext.safeNav
 
 @Composable
 fun ScorePage(

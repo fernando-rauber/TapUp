@@ -21,11 +21,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import uk.fernando.tapup.BuildConfig
 import uk.fernando.tapup.R
-import uk.fernando.tapup.components.MyTextField
 import uk.fernando.tapup.components.NavigationTopBar
 import uk.fernando.tapup.viewmodel.SettingsViewModel
-import uk.fernando.util.component.MyButton
-import uk.fernando.util.ext.clickableSingle
+import uk.fernando.uikit.component.MyButton
+import uk.fernando.uikit.component.MyTextField
+import uk.fernando.uikit.ext.clickableSingle
 
 @Composable
 fun SettingsPage(
@@ -101,11 +101,7 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
         tonalElevation = 2.dp,
         shadowElevation = 4.dp
     ) {
-        Box(
-            Modifier
-                .padding(start = 16.dp)
-                .padding(vertical = 8.dp)
-        ) {
+        Box(Modifier.padding(8.dp)) {
 
             if (!isEditMode) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -116,7 +112,7 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier
                             .weight(1f)
-                            .padding(end = 5.dp)
+                            .padding(horizontal = 8.dp)
                     )
 
                     TextButton(onClick = { isEditMode = true }) {
@@ -128,31 +124,29 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                     }
                 }
             } else {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    var isValidName by remember { mutableStateOf(true) }
-                    var playerName by remember { mutableStateOf(name) }
+                var isValidName by remember { mutableStateOf(true) }
+                var playerName by remember { mutableStateOf(name) }
 
-                    MyTextField(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 8.dp),
-                        value = playerName,
-                        onValueChange = {
-                            playerName = it
-                            isValidName = it.length in 1..12
-                        }
-                    )
-
-                    MyButton(
-                        modifier = Modifier.padding(end = 16.dp),
-                        text = stringResource(R.string.done_action),
-                        enabled = isValidName,
-                        onClick = {
-                            onNameChange(playerName)
-                            isEditMode = false
-                        }
-                    )
-                }
+                MyTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = playerName,
+                    onValueChange = {
+                        playerName = it
+                        isValidName = it.length in 1..12
+                    },
+                    trailingIcon = {
+                        MyButton(
+                            modifier = Modifier.padding(end = 4.dp),
+                            text = stringResource(R.string.done_action),
+                            fontSize = 13.sp,
+                            enabled = isValidName,
+                            onClick = {
+                                onNameChange(playerName)
+                                isEditMode = false
+                            }
+                        )
+                    }
+                )
             }
         }
     }

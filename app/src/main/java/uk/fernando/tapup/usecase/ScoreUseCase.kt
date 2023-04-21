@@ -1,5 +1,6 @@
 package uk.fernando.tapup.usecase
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,7 +9,6 @@ import uk.fernando.logger.MyLogger
 import uk.fernando.tapup.datastore.PrefsStore
 import uk.fernando.tapup.model.ScoreModel
 import uk.fernando.tapup.repository.ScoreRepository
-import uk.fernando.util.ext.TAG
 
 class ScoreUseCase(private val repository: ScoreRepository, private val prefs: PrefsStore, private val logger: MyLogger) {
 

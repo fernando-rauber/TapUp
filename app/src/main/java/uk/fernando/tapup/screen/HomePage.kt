@@ -16,9 +16,9 @@ import uk.fernando.advertising.component.AdBanner
 import uk.fernando.tapup.R
 import uk.fernando.tapup.components.NavigationTopBar
 import uk.fernando.tapup.navigation.Directions
-import uk.fernando.util.component.MyButton
-import uk.fernando.util.component.MyIconButton
-import uk.fernando.util.ext.safeNav
+import uk.fernando.uikit.component.MyButton
+import uk.fernando.uikit.component.MyIconButton
+import uk.fernando.uikit.ext.safeNav
 
 @Composable
 fun HomePage(navController: NavController = NavController(LocalContext.current)) {
@@ -36,8 +36,6 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
                 )
             }
         )
-
-
 
         Column(
             modifier = Modifier

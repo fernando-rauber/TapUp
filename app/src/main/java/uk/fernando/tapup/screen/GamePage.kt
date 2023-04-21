@@ -35,13 +35,13 @@ import uk.fernando.tapup.ext.timerFormat
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.util.GameStatus
 import uk.fernando.tapup.viewmodel.GameViewModel
-import uk.fernando.util.component.MyAnimatedVisibility
-import uk.fernando.util.component.MyButton
-import uk.fernando.util.component.MyDialog
-import uk.fernando.util.component.MyIconButton
-import uk.fernando.util.ext.clickableSingle
-import uk.fernando.util.ext.playAudio
-import uk.fernando.util.ext.safeNav
+import uk.fernando.uikit.component.MyAnimatedVisibility
+import uk.fernando.uikit.component.MyButton
+import uk.fernando.uikit.component.MyDialog
+import uk.fernando.uikit.component.MyIconButton
+import uk.fernando.uikit.ext.clickableSingle
+import uk.fernando.uikit.ext.playAudio
+import uk.fernando.uikit.ext.safeNav
 import java.util.*
 
 @Composable
@@ -52,7 +52,7 @@ fun GamePage(
     val coroutine = rememberCoroutineScope()
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_interstitial_end_level))
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
-    val soundWrong = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
+    val soundWrong = MediaPlayer.create(LocalContext.current, R.raw.wrong)
 
     LaunchedEffect(Unit) {
         viewModel.startGame()
@@ -208,7 +208,7 @@ fun DialogResult(
 
         LaunchedEffect(Unit) {
             fullScreenAd.showAdvert()
-            MediaPlayer.create(context, R.raw.sound_finish).playAudio()
+            MediaPlayer.create(context, R.raw.end_game).playAudio()
         }
 
         MyDialog {
