@@ -41,11 +41,9 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
             if (prefs[PreferencesKeys.USER_NAME] != null)
                 prefs[PreferencesKeys.USER_NAME]!!
             else {
-                var userName = android.os.Build.MODEL
-                if (userName == null || userName.trim().isEmpty())
-                    userName = "Player_${(100..999).random()}"
+                val userName = "Player_${(10000..99999).random()}"
 
-                storeUserName(userName.take(10))
+                storeUserName(userName)
                 userName
             }
         }.first()
@@ -56,7 +54,7 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
     }
 
     override suspend fun storeUserID(id: String) {
-        dataStore.edit { prefs -> prefs[PreferencesKeys.USER_ID] = id }
+        dataStore.edit { prefs -> prefs[PreferencesKeys.USER_ID] = id.plus("_" + userID().take(4)) }
     }
 
     override suspend fun storeUserName(name: String) {

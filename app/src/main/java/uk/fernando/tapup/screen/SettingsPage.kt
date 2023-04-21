@@ -101,7 +101,11 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
         tonalElevation = 2.dp,
         shadowElevation = 4.dp
     ) {
-        Box(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Box(
+            Modifier
+                .padding(start = 16.dp)
+                .padding(vertical = 8.dp)
+        ) {
 
             if (!isEditMode) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -135,11 +139,12 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                         value = playerName,
                         onValueChange = {
                             playerName = it
-                            isValidName = it.length in 1..10
+                            isValidName = it.length in 1..12
                         }
                     )
 
                     MyButton(
+                        modifier = Modifier.padding(end = 16.dp),
                         text = stringResource(R.string.done_action),
                         enabled = isValidName,
                         onClick = {

@@ -67,6 +67,27 @@ class ScoreUseCase(private val repository: ScoreRepository, private val prefs: P
         }
     }
 
+    suspend fun updateUserNameAtBoardTop10() {
+        userID = prefs.userID()
+        userName = prefs.userName()
+
+        repository.getScoreBoardList().collect { top10 ->
+            val isPlayerOnBoard = top10.firstOrNull { it.uuid == userID }
+            if (isPlayerOnBoard != null) {
+
+                val indexPlayer = top10.indexOf(isPlayerOnBoard)
+
+                top10[indexPlayer].name = userName
+
+                // Update name on top 10
+                withContext(Dispatchers.IO) {
+                    repository.updateScoreList(top10)
+                    getGlobalScoreList()
+                }
+            }
+        }
+    }
+
     private suspend fun getGlobalScoreList() {
 //        withContext(Dispatchers.IO) {
 //            val newList = listOf(
