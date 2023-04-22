@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.NavHost
@@ -18,6 +19,7 @@ import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.navigation.buildGraph
 import uk.fernando.tapup.theme.TapUpTheme
 import uk.fernando.tapup.theme.background
+import uk.fernando.tapup.theme.dark
 import uk.fernando.uikit.component.UpdateStatusBar
 
 
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val controller = rememberNavController()
 
-            UpdateStatusBar(background)
+            UpdateStatusBar(Color.Black)
 
             TapUpTheme {
 

@@ -6,5 +6,5 @@ import androidx.compose.ui.text.font.FontWeight
 import uk.fernando.tapup.R
 
 val myFontFamily = FontFamily(
-    Font(R.font.kaph_regular, FontWeight.Normal)
+    Font(R.font.gomarice_rocks, FontWeight.Normal)
 )

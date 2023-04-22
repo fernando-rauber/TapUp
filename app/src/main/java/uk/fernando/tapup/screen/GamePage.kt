@@ -3,20 +3,21 @@ package uk.fernando.tapup.screen
 import android.media.MediaPlayer
 import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,6 +34,8 @@ import uk.fernando.tapup.activity.MainActivity
 import uk.fernando.tapup.components.SimpleCard
 import uk.fernando.tapup.ext.timerFormat
 import uk.fernando.tapup.navigation.Directions
+import uk.fernando.tapup.theme.game_orange
+import uk.fernando.tapup.theme.game_red
 import uk.fernando.tapup.util.GameStatus
 import uk.fernando.tapup.viewmodel.GameViewModel
 import uk.fernando.uikit.component.MyAnimatedVisibility
@@ -68,17 +71,6 @@ fun GamePage(
 
             MistakesLeft(viewModel)
 
-            // Last selected number
-            Text(
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .align(CenterHorizontally),
-                text = "${viewModel.lastNumberSelected.value}",
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-
             // Rotating numbers
             SlideNumbers(
                 viewModel = viewModel,
@@ -96,6 +88,8 @@ fun GamePage(
             )
         }
 
+        Timer(Modifier.align(BottomCenter), viewModel)
+
         // Dialogs
         DialogResult(
             viewModel = viewModel,
@@ -110,56 +104,48 @@ fun GamePage(
 
 @Composable
 private fun TopBar(viewModel: GameViewModel, onCloseClick: () -> Unit) {
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, top = 7.dp)
-    ) {
+    Box(Modifier.fillMaxWidth()) {
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                modifier = Modifier.size(36.dp),
-                painter = painterResource(id = R.drawable.ic_timer),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                modifier = Modifier.padding(start = 2.dp),
-                text = viewModel.chronometerSeconds.value.timerFormat(),
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
+        Image(
+            painter = painterResource(R.drawable.bg_header),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+        )
+
+        Text(
+            modifier = Modifier
+                .align(BottomCenter)
+                .offset(y = (-15).dp),
+            text = viewModel.lastNumberSelected.value.toString(),
+            style = MaterialTheme.typography.titleLarge,
+            color = game_orange
+        )
 
         MyIconButton(
-            icon = R.drawable.ic_close,
-            modifier = Modifier.align(Alignment.CenterEnd),
+            icon = R.drawable.icon_exit,
+            modifier = Modifier.align(Alignment.TopEnd),
             onClick = onCloseClick,
-            tint = MaterialTheme.colorScheme.onBackground
+            tint = Color.Unspecified
         )
     }
 }
 
 @Composable
 private fun MistakesLeft(viewModel: GameViewModel) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            modifier = Modifier.padding(start = 2.dp),
-            text = stringResource(R.string.mistakes_left),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 15.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
         for (i in 1..viewModel.mistakeLeft.value) {
             Icon(
                 modifier = Modifier
                     .size(36.dp)
                     .padding(end = 3.dp),
-                painter = painterResource(R.drawable.img_x),
+                painter = painterResource(R.drawable.icon_exit),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = game_red
             )
         }
     }
@@ -194,6 +180,49 @@ private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Un
             )
         }
 
+    }
+}
+
+@Composable
+private fun Timer(modifier: Modifier, viewModel: GameViewModel) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = CenterHorizontally
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 7.dp),
+            text = viewModel.chronometerSeconds.value.timerFormat(),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+        Box(contentAlignment = CenterEnd) {
+
+            Image(
+                modifier = Modifier.fillMaxWidth(),
+                painter = painterResource(R.drawable.progress_bar_bg),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+            )
+
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth(((viewModel.chronometerSeconds.value * 1.666) / 100).toFloat())
+                    .padding(horizontal = 5.dp),
+                painter = painterResource(R.drawable.progress_bar),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+            )
+
+            Image(
+                modifier = Modifier.fillMaxWidth(),
+                painter = painterResource(R.drawable.progress_bar_shape),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+            )
+        }
     }
 }
 

@@ -11,7 +11,6 @@
     <string name="score_action">Score</string>
 
     // Game
-    <string name="mistakes_left">Mistakes Left:</string>
     <string name="well_done">Well Done</string>
     <string name="see_score">See Score</string>
 
