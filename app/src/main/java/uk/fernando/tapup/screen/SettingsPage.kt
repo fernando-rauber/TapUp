@@ -30,7 +30,6 @@ import uk.fernando.tapup.components.NavigationTopBar
 import uk.fernando.tapup.theme.light_blue
 import uk.fernando.tapup.theme.light_blue2
 import uk.fernando.tapup.theme.purple
-import uk.fernando.tapup.theme.yellow
 import uk.fernando.tapup.viewmodel.SettingsViewModel
 import uk.fernando.uikit.component.MyButton
 import uk.fernando.uikit.component.MyTextField
