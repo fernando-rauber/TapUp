@@ -7,6 +7,7 @@
 
 
     // Home
+    <string name="game_instructions">How to Play\n\nSelect a number bigger than the previous selected</string>
     <string name="play_action">Play</string>
     <string name="score_action">Score</string>
 

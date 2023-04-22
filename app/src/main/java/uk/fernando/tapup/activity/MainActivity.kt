@@ -18,8 +18,6 @@ import uk.fernando.tapup.R
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.navigation.buildGraph
 import uk.fernando.tapup.theme.TapUpTheme
-import uk.fernando.tapup.theme.background
-import uk.fernando.tapup.theme.dark
 import uk.fernando.uikit.component.UpdateStatusBar
 
 

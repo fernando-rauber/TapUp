@@ -228,6 +228,7 @@ fun DialogResult(
     onClose: (Int) -> Unit,
 ) {
     val context = LocalContext.current
+
     MyAnimatedVisibility(viewModel.gameStatus.value == GameStatus.END_GAME) {
 
         LaunchedEffect(Unit) {

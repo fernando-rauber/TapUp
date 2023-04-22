@@ -18,7 +18,6 @@ val greyLight4 = Color(0xFFD8D8D8)
 val greyDark = Color(0xFF7E8184)
 val grey = Color(0xFF9F9F9F)
 val green = Color(0xFF5eb14f)
-val orange = Color(0xFFff8e12)
 val red = Color(0xFFd94443)
 val whiteBackGround = Color(0xFFEEEEEE)
 
