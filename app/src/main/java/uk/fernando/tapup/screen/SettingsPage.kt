@@ -3,13 +3,18 @@ package uk.fernando.tapup.screen
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,6 +27,10 @@ import androidx.navigation.NavController
 import uk.fernando.tapup.BuildConfig
 import uk.fernando.tapup.R
 import uk.fernando.tapup.components.NavigationTopBar
+import uk.fernando.tapup.theme.light_blue
+import uk.fernando.tapup.theme.light_blue2
+import uk.fernando.tapup.theme.purple
+import uk.fernando.tapup.theme.yellow
 import uk.fernando.tapup.viewmodel.SettingsViewModel
 import uk.fernando.uikit.component.MyButton
 import uk.fernando.uikit.component.MyTextField
@@ -59,10 +68,7 @@ fun SettingsPage(
                         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://funmath-5c418.web.app/memory-privacy-policy.html"))
                         context.startActivity(browserIntent)
                     },
-                text = R.string.privacy_policy,
-                isChecked = false,
-                onCheckedChange = {},
-                showArrow = true
+                text = R.string.privacy_policy
             )
 
             Spacer(Modifier.weight(0.9f))
@@ -95,13 +101,13 @@ fun SettingsPage(
 private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
     var isEditMode by remember { mutableStateOf(false) }
 
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(25),
-        tonalElevation = 2.dp,
-        shadowElevation = 4.dp
+    Box(
+        Modifier
+            .shadow(4.dp, RoundedCornerShape(30))
+            .background(Brush.verticalGradient(colors = listOf(light_blue, light_blue2)), RoundedCornerShape(30))
     ) {
-        Box(Modifier.padding(8.dp)) {
+
+        Box(Modifier.padding(6.dp)) {
 
             if (!isEditMode) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -109,7 +115,7 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                     Text(
                         text = name,
                         style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Medium,
+                        color = purple,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 8.dp)
@@ -119,7 +125,7 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                         Text(
                             text = stringResource(id = R.string.edit_action),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = purple
                         )
                     }
                 }
@@ -156,64 +162,32 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
 private fun CustomSettingsResourcesCard(
     modifier: Modifier = Modifier,
     modifierRow: Modifier = Modifier,
-    @StringRes text: Int,
-    @StringRes subText: Int? = null,
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    showArrow: Boolean? = null
+    @StringRes text: Int
 ) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(25),
-        tonalElevation = 2.dp,
-        shadowElevation = 4.dp
+    Box(
+        modifier = modifier
+            .shadow(4.dp, RoundedCornerShape(30))
+            .background(Brush.verticalGradient(colors = listOf(light_blue, light_blue2)), RoundedCornerShape(30))
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifierRow.padding(16.dp)
         ) {
 
-            Column(
-                Modifier
+            Text(
+                text = stringResource(id = text),
+                style = MaterialTheme.typography.bodyMedium,
+                color = purple,
+                modifier = Modifier
                     .padding(end = 20.dp)
                     .weight(1f),
-            ) {
+            )
 
-                Row {
-
-                    Text(
-                        text = stringResource(id = text),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(end = 5.dp)
-                    )
-                }
-
-                subText?.let {
-                    Text(
-                        text = stringResource(id = subText),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            if (showArrow == null)
-                Switch(
-                    checked = isChecked,
-                    onCheckedChange = onCheckedChange,
-                    colors = SwitchDefaults.colors(
-                        checkedThumbColor = Color.White,
-                        uncheckedBorderColor = Color.Transparent,
-                        uncheckedThumbColor = Color.White,
-                    )
-                )
-            else if (showArrow)
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_forward),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_arrow_forward),
+                contentDescription = null,
+                tint = purple
+            )
 
         }
     }
