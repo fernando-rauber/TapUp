@@ -7,8 +7,8 @@ val game_orange = Color(0xFFFFE100)
 val game_green = Color(0xFF18cda0)
 val game_purple = Color(0xFF7b62fd)
 
-val light_blue = Color(0xFF00D3D1)
-val light_blue2 = Color(0xFF00BAB6)
+val light_blue = Color(0xFF00F7F2)
+val light_blue2 = Color(0xFF00B1B9)
 
 val greySuperLight = Color(0xFFEAEAEA)
 val greyLight = Color(0xFFD7D7D7)
@@ -25,5 +25,6 @@ val lightDark = Color(0xFF1C2939)
 val dark = Color(0xFF141C28)
 
 val purple = Color(0xFF5D1355)
+val yellow = Color(0xFFFFE100)
 
 val background = Color(0xFF002d5c)

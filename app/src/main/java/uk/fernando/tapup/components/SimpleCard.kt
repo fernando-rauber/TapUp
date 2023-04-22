@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,7 +21,13 @@ import uk.fernando.tapup.theme.light_blue2
 import uk.fernando.tapup.theme.purple
 
 @Composable
-fun SimpleCard(modifier: Modifier = Modifier, @StringRes title: Int, value: Int) {
+fun SimpleCard(
+    modifier: Modifier = Modifier,
+    @StringRes title: Int,
+    titleColor: Color = purple,
+    value: Int
+) {
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -28,8 +35,8 @@ fun SimpleCard(modifier: Modifier = Modifier, @StringRes title: Int, value: Int)
         Text(
             modifier = Modifier.padding(bottom = 10.dp),
             text = stringResource(title),
-            style = MaterialTheme.typography.bodyLarge,
-            color = purple
+            style = MaterialTheme.typography.titleMedium,
+            color = titleColor
         )
 
         Text(

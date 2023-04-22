@@ -24,8 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import uk.fernando.advertising.component.AdBanner
 import uk.fernando.tapup.R
@@ -154,25 +152,6 @@ fun MyImageButton(
                 fontWeight = FontWeight.Bold,
                 fontSize = fontSize
             )
-        }
-    }
-}
-
-@Composable
-fun MyImageDialog(@DrawableRes image: Int, content: @Composable () -> Unit) {
-    Dialog(
-        onDismissRequest = { },
-        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
-    ) {
-        Box(Modifier.height(IntrinsicSize.Min)) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painterResource(image),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-            )
-
-            content()
         }
     }
 }

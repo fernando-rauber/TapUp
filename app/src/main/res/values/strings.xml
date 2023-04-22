@@ -17,10 +17,9 @@
 
     // Score
     <string name="global_score">Global Score</string>
-    <string name="my_score">My Score</string>
+    <string name="my_record">My Record</string>
     <string name="score">Score</string>
     <string name="close_action">Close</string>
-    <string name="name">Name</string>
 
     // Settings
     <string name="settings_title">Settings</string>

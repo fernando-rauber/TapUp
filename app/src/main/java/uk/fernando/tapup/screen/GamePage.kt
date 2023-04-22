@@ -3,7 +3,10 @@ package uk.fernando.tapup.screen
 import android.media.MediaPlayer
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,6 +17,7 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -31,12 +35,11 @@ import uk.fernando.tapup.activity.MainActivity
 import uk.fernando.tapup.components.SimpleCard
 import uk.fernando.tapup.ext.timerFormat
 import uk.fernando.tapup.navigation.Directions
-import uk.fernando.tapup.theme.game_orange
-import uk.fernando.tapup.theme.game_red
-import uk.fernando.tapup.theme.purple
+import uk.fernando.tapup.theme.*
 import uk.fernando.tapup.util.GameStatus
 import uk.fernando.tapup.viewmodel.GameViewModel
 import uk.fernando.uikit.component.MyAnimatedVisibility
+import uk.fernando.uikit.component.MyDialog
 import uk.fernando.uikit.component.MyIconButton
 import uk.fernando.uikit.ext.clickableSingle
 import uk.fernando.uikit.ext.playAudio
@@ -236,51 +239,68 @@ fun DialogResult(
             MediaPlayer.create(context, R.raw.end_game).playAudio()
         }
 
-        MyImageDialog(image = R.drawable.dialog_box) {
+        MyDialog(RoundedCornerShape(10)) {
 
-            Column(
+            Box(
                 Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = CenterHorizontally
+                    .height(IntrinsicSize.Min)
+                    .background(Brush.verticalGradient(colors = listOf(light_blue, light_blue2)), RoundedCornerShape(10))
             ) {
 
-                // Title
+                // Just border
                 Box(
+                    Modifier
+                        .fillMaxSize()
+                        .border(8.dp, Color.White, RoundedCornerShape(10)),
+                    content = {}
+                )
+
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .height(60.dp)
-                        .offset(y = -(20).dp)
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    horizontalAlignment = CenterHorizontally
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.dialog_title),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
+
+                    // Title
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .height(60.dp)
+                            .offset(y = -(28).dp)
+                    ) {
+                        Image(
+                            modifier = Modifier.fillMaxWidth(),
+                            painter = painterResource(R.drawable.dialog_title),
+                            contentDescription = null,
+                            contentScale = ContentScale.FillBounds,
+                        )
+
+                        Text(
+                            modifier = Modifier.align(Center),
+                            text = stringResource(R.string.well_done).uppercase(Locale.ENGLISH),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = game_orange
+                        )
+                    }
+
+                    SimpleCard(
+                        modifier = Modifier.padding(vertical = 15.dp),
+                        title = R.string.score,
+                        value = viewModel.lastNumberSelected.value
                     )
 
-                    Text(
-                        modifier = Modifier.align(Center),
-                        text = stringResource(R.string.well_done).uppercase(Locale.ENGLISH),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = game_orange
+                    MyImageButton(
+                        modifier = Modifier
+                            .padding(vertical = 16.dp)
+                            .defaultMinSize(minHeight = 60.dp),
+                        image = R.drawable.bt_yellow,
+                        text = stringResource(R.string.see_score).uppercase(),
+                        textColor = purple,
+                        onClick = { onClose(viewModel.lastNumberSelected.value) }
                     )
                 }
 
-                SimpleCard(
-                    modifier = Modifier.padding(vertical = 35.dp),
-                    title = R.string.score,
-                    value = viewModel.lastNumberSelected.value
-                )
-
-                MyImageButton(
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .defaultMinSize(minHeight = 60.dp),
-                    image = R.drawable.bt_yellow,
-                    text = stringResource(R.string.see_score).uppercase(),
-                    textColor = purple,
-                    onClick = { onClose(viewModel.lastNumberSelected.value) }
-                )
             }
         }
     }

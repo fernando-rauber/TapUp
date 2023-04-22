@@ -1,25 +1,35 @@
 package uk.fernando.tapup.screen
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import uk.fernando.tapup.R
 import uk.fernando.tapup.components.SimpleCard
 import uk.fernando.tapup.model.ScoreModel
 import uk.fernando.tapup.navigation.Directions
+import uk.fernando.tapup.theme.*
 import uk.fernando.tapup.viewmodel.ScoreViewModel
-import uk.fernando.uikit.component.MyButton
 import uk.fernando.uikit.ext.safeNav
 
 @Composable
@@ -39,79 +49,108 @@ fun ScorePage(
         horizontalAlignment = CenterHorizontally
     ) {
 
-        // global score
-        Text(
-            modifier = Modifier.padding(vertical = 30.dp),
-            text = stringResource(R.string.global_score),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground
+        LeadingBoard(
+            modifier = Modifier.weight(2f),
+            viewModel = viewModel
         )
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(.5f)
-        ) {
-            item {
-                Row(Modifier.padding(vertical = 10.dp)) {
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = stringResource(id = R.string.name),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-
-                    Text(
-                        text = stringResource(id = R.string.score),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-            }
-            items(viewModel.globalScore.value) { score ->
-                ScoreCard(score)
-            }
-
-        }
+        Spacer(modifier = Modifier.weight(0.2f))
 
         // my best score
-        SimpleCard(title = R.string.my_score, value = viewModel.myBestScore.value)
+        SimpleCard(
+            title = R.string.my_record,
+            titleColor = Color.White.copy(0.8f),
+            value = viewModel.myBestScore.value
+        )
 
-        Spacer(modifier = Modifier.heightIn(30.dp))
+        Spacer(modifier = Modifier.weight(0.3f))
 
-        // my last score
-        SimpleCard(title = R.string.score, value = viewModel.myScore.value)
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        MyButton(
+        MyImageButton(
             modifier = Modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 50.dp),
+                .fillMaxWidth(0.7f)
+                .defaultMinSize(minHeight = 60.dp),
+            image = R.drawable.bt_yellow,
+            text = stringResource(R.string.close_action).uppercase(),
+            textColor = purple,
             onClick = {
                 navController.popBackStack()
                 if (newScore > 0)
                     navController.safeNav(Directions.home.path)
-            },
-            text = stringResource(R.string.close_action)
+            }
         )
     }
 }
 
 @Composable
+private fun LeadingBoard(modifier: Modifier, viewModel: ScoreViewModel) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .shadow(4.dp, RoundedCornerShape(10))
+            .border(8.dp, Color.White.copy(0.8f), RoundedCornerShape(10))
+            .background(Brush.verticalGradient(colors = listOf(light_blue, light_blue2)), alpha = 0.6f)
+    ) {
+
+        Column(Modifier.padding(16.dp)) {
+
+            // global score
+            Row(
+                modifier = Modifier.align(CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = stringResource(R.string.global_score),
+                    fontFamily = myFontKaph,
+                    fontSize = 22.sp,
+                    color = purple
+                )
+
+                Icon(
+                    modifier = Modifier
+                        .size(52.dp)
+                        .padding(start = 10.dp),
+                    painter = painterResource(R.drawable.ic_trophy),
+                    contentDescription = null,
+                    tint = purple
+                )
+            }
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 20.dp)
+            ) {
+                items(viewModel.globalScore.value) { score ->
+                    ScoreCard(score)
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun ScoreCard(score: ScoreModel) {
-    Row {
+    Row(
+        Modifier
+            .padding(3.dp)
+            .shadow(4.dp, RoundedCornerShape(35))
+            .background(Brush.verticalGradient(colors = listOf(purple, purple)), RoundedCornerShape(35))
+            .padding(6.dp)
+    ) {
         Text(
             modifier = Modifier.weight(1f),
             text = score.name,
-            style = MaterialTheme.typography.bodyMedium,
+            fontFamily = myFontKaph,
+            fontSize = 15.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
             text = score.score.toString(),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            fontFamily = myFontKaph,
+            fontSize = 15.sp,
+            color = yellow
         )
     }
 }

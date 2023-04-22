@@ -10,7 +10,6 @@ import javax.inject.Inject
 class ScoreViewModel @Inject constructor(private val useCase: ScoreUseCase) : BaseViewModel() {
 
     val globalScore = mutableStateOf(emptyList<ScoreModel>())
-    val myScore = mutableStateOf(0)
     val myBestScore = mutableStateOf(0)
 
     init {
@@ -24,7 +23,6 @@ class ScoreViewModel @Inject constructor(private val useCase: ScoreUseCase) : Ba
     fun fetchAllScores(newScore: Int) {
         launchDefault {
             myBestScore.value = useCase.getUserBestScore(newScore)
-            myScore.value = newScore
         }
     }
 }
