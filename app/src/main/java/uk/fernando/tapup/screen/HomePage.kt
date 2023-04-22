@@ -22,10 +22,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import uk.fernando.advertising.component.AdBanner
 import uk.fernando.tapup.R
-import uk.fernando.tapup.components.NavigationTopBar
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.uikit.component.MyIconButton
 import uk.fernando.uikit.event.MultipleEventsCutter
@@ -60,7 +61,7 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 50.dp)
-                    .defaultMinSize(minHeight = 50.dp),
+                    .defaultMinSize(minHeight = 60.dp),
                 image = R.drawable.bt_purple,
                 text = stringResource(R.string.play_action).uppercase(),
                 onClick = { navController.safeNav(Directions.game.path) }
@@ -76,7 +77,7 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
             MyImageButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .defaultMinSize(minHeight = 50.dp),
+                    .defaultMinSize(minHeight = 60.dp),
                 image = R.drawable.bt_purple,
                 text = stringResource(R.string.score_action).uppercase(),
                 onClick = { }
@@ -108,12 +109,16 @@ fun MyImageButton(
     val multipleEventsCutter = remember { MultipleEventsCutter.get() }
     val soundClick = if (soundEffect == null) null else MediaPlayer.create(LocalContext.current, soundEffect)
 
-    Box(modifier = modifier.clickableSingle(ripple = false) {
-        soundClick?.playAudio()
+    Box(modifier = modifier
+        .height(IntrinsicSize.Min)
+        .width(IntrinsicSize.Min)
+        .clickableSingle(ripple = false) {
+            soundClick?.playAudio()
 
-        multipleEventsCutter.processEvent(onClick)
-    }) {
+            multipleEventsCutter.processEvent(onClick)
+        }) {
         Image(
+            modifier = Modifier.fillMaxSize(),
             painter = painterResource(image),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
@@ -123,8 +128,28 @@ fun MyImageButton(
             modifier = textModifier.align(Center),
             text = text,
             color = if (enabled) textColor else Color.Black,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             fontSize = fontSize
         )
+    }
+}
+
+@Composable
+fun MyImageDialog(@DrawableRes image: Int, content: @Composable () -> Unit) {
+    Dialog(
+        onDismissRequest = { },
+        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+    ) {
+        Box(Modifier.height(IntrinsicSize.Min)) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painterResource(image),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+            )
+
+            content()
+        }
     }
 }

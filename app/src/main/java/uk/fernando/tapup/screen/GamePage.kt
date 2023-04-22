@@ -2,10 +2,8 @@ package uk.fernando.tapup.screen
 
 import android.media.MediaPlayer
 import androidx.compose.animation.*
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +20,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,11 +33,10 @@ import uk.fernando.tapup.ext.timerFormat
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.theme.game_orange
 import uk.fernando.tapup.theme.game_red
+import uk.fernando.tapup.theme.purple
 import uk.fernando.tapup.util.GameStatus
 import uk.fernando.tapup.viewmodel.GameViewModel
 import uk.fernando.uikit.component.MyAnimatedVisibility
-import uk.fernando.uikit.component.MyButton
-import uk.fernando.uikit.component.MyDialog
 import uk.fernando.uikit.component.MyIconButton
 import uk.fernando.uikit.ext.clickableSingle
 import uk.fernando.uikit.ext.playAudio
@@ -179,7 +175,6 @@ private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Un
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
-
     }
 }
 
@@ -240,32 +235,34 @@ fun DialogResult(
             MediaPlayer.create(context, R.raw.end_game).playAudio()
         }
 
-        MyDialog {
+        MyImageDialog(image = R.drawable.dialog_box) {
+
             Column(
-                Modifier.padding(horizontal = 16.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 horizontalAlignment = CenterHorizontally
             ) {
 
                 // Title
-                Surface(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .height(60.dp)
-                        .offset(y = -(30).dp),
-                    color = MaterialTheme.colorScheme.primary,
-                    shadowElevation = 4.dp,
-                    shape = CutCornerShape(15),
-                    border = BorderStroke(2.dp, Color.White.copy(0.2f))
+                        .offset(y = -(20).dp)
                 ) {
-                    Box(Modifier.fillMaxSize()) {
-                        Text(
-                            modifier = Modifier.align(Center),
-                            text = stringResource(R.string.well_done).uppercase(Locale.ENGLISH),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.White,
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                    Image(
+                        painter = painterResource(R.drawable.dialog_title),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds,
+                    )
+
+                    Text(
+                        modifier = Modifier.align(Center),
+                        text = stringResource(R.string.well_done).uppercase(Locale.ENGLISH),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = game_orange
+                    )
                 }
 
                 SimpleCard(
@@ -274,13 +271,14 @@ fun DialogResult(
                     value = viewModel.lastNumberSelected.value
                 )
 
-                MyButton(
+                MyImageButton(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(bottom = 16.dp)
-                        .defaultMinSize(minHeight = 50.dp),
-                    onClick = { onClose(viewModel.lastNumberSelected.value) },
-                    text = stringResource(R.string.see_score)
+                        .defaultMinSize(minHeight = 60.dp),
+                    image = R.drawable.bt_yellow,
+                    text = stringResource(R.string.see_score).uppercase(),
+                    textColor = purple,
+                    onClick = { onClose(viewModel.lastNumberSelected.value) }
                 )
             }
         }

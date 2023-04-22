@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(private val useCase: GameUseCase) : BaseViewModel() {
 
-    val lastNumberSelected = mutableStateOf(1)
+    val lastNumberSelected = mutableStateOf(10)
     val currentNumber = mutableStateOf(0)
     val mistakeLeft = mutableStateOf(3)
     val gameStatus = mutableStateOf(GameStatus.INIT)
