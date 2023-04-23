@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,11 +28,9 @@ import androidx.navigation.NavController
 import uk.fernando.tapup.BuildConfig
 import uk.fernando.tapup.R
 import uk.fernando.tapup.components.NavigationTopBar
-import uk.fernando.tapup.theme.light_blue
-import uk.fernando.tapup.theme.light_blue2
 import uk.fernando.tapup.theme.purple
+import uk.fernando.tapup.theme.purple_light
 import uk.fernando.tapup.viewmodel.SettingsViewModel
-import uk.fernando.uikit.component.MyButton
 import uk.fernando.uikit.component.MyTextField
 import uk.fernando.uikit.ext.clickableSingle
 
@@ -61,7 +60,7 @@ fun SettingsPage(
             )
 
             CustomSettingsResourcesCard(
-                modifier = Modifier.padding(vertical = 30.dp),
+                modifier = Modifier.padding(vertical = 20.dp),
                 modifierRow = Modifier
                     .clickableSingle {
                         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://funmath-5c418.web.app/memory-privacy-policy.html"))
@@ -103,7 +102,7 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
     Box(
         Modifier
             .shadow(4.dp, RoundedCornerShape(30))
-            .background(Brush.verticalGradient(colors = listOf(light_blue, light_blue2)), RoundedCornerShape(30))
+            .background(Brush.verticalGradient(colors = listOf(purple, purple_light)), RoundedCornerShape(30))
     ) {
 
         Box(Modifier.padding(6.dp)) {
@@ -114,7 +113,7 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                     Text(
                         text = name,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = purple,
+                        color = Color.White,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 8.dp)
@@ -124,7 +123,7 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                         Text(
                             text = stringResource(id = R.string.edit_action),
                             style = MaterialTheme.typography.bodySmall,
-                            color = purple
+                            color = Color.White
                         )
                     }
                 }
@@ -132,26 +131,31 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                 var isValidName by remember { mutableStateOf(true) }
                 var playerName by remember { mutableStateOf(name) }
 
-                MyTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = playerName,
-                    onValueChange = {
-                        playerName = it
-                        isValidName = it.length in 1..12
-                    },
-                    trailingIcon = {
-                        MyButton(
-                            modifier = Modifier.padding(end = 4.dp),
-                            text = stringResource(R.string.done_action),
-                            fontSize = 13.sp,
-                            enabled = isValidName,
-                            onClick = {
-                                onNameChange(playerName)
-                                isEditMode = false
-                            }
-                        )
-                    }
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    MyTextField(
+                        modifier = Modifier.weight(1f),
+                        value = playerName,
+                        onValueChange = {
+                            playerName = it
+                            isValidName = it.length in 1..12
+                        }
+                    )
+
+                    MyImageButton(
+                        modifier = Modifier
+                            .weight(0.4f)
+                            .padding(horizontal = 4.dp),
+                        image = R.drawable.bt_yellow,
+                        text = stringResource(R.string.done_action),
+                        fontSize = 13.sp,
+                        textColor = purple,
+                        enabled = isValidName,
+                        onClick = {
+                            onNameChange(playerName)
+                            isEditMode = false
+                        }
+                    )
+                }
             }
         }
     }
@@ -166,7 +170,7 @@ private fun CustomSettingsResourcesCard(
     Box(
         modifier = modifier
             .shadow(4.dp, RoundedCornerShape(30))
-            .background(Brush.verticalGradient(colors = listOf(light_blue, light_blue2)), RoundedCornerShape(30))
+            .background(Brush.verticalGradient(colors = listOf(purple, purple_light)), RoundedCornerShape(30))
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -176,7 +180,7 @@ private fun CustomSettingsResourcesCard(
             Text(
                 text = stringResource(id = text),
                 style = MaterialTheme.typography.bodyMedium,
-                color = purple,
+                color = Color.White,
                 modifier = Modifier
                     .padding(end = 20.dp)
                     .weight(1f),
@@ -185,7 +189,7 @@ private fun CustomSettingsResourcesCard(
             Icon(
                 painter = painterResource(id = R.drawable.ic_arrow_forward),
                 contentDescription = null,
-                tint = purple
+                tint = Color.White
             )
 
         }
