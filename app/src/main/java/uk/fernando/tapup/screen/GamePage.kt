@@ -164,15 +164,15 @@ private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Un
             )
         }
     ) { number ->
-
         Box(
             Modifier
                 .fillMaxWidth()
-                .clickableSingle { onNumberSelected(number) }) {
+                .clickableSingle(ripple = false) { onNumberSelected(number) }
+        ) {
             Text(
                 modifier = Modifier.align(Center),
                 text = "$number",
-                style = MaterialTheme.typography.bodyLarge,
+                fontFamily = myFontKaph,
                 fontWeight = FontWeight.Bold,
                 fontSize = 70.sp,
                 color = MaterialTheme.colorScheme.onBackground

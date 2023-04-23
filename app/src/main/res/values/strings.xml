@@ -1,18 +1,18 @@
 <resources>
-    <string name="app_name">Tap Up</string>
+    <string name="app_name" translatable="false">Tap Up</string>
 
     <string name="ad_banner_home" translatable="false">ca-app-pub-5791754615168338/9450892062</string>
     <string name="ad_banner_score" translatable="false">ca-app-pub-5791754615168338/7127981054</string>
     <string name="ad_interstitial_end_level" translatable="false">ca-app-pub-5791754615168338/5814899388</string>
 
-
     // Home
-    <string name="game_instructions">How to Play\n\nSelect a number bigger than the previous selected</string>
+    <string name="game_instructions_title">How to Play</string>
+    <string name="game_instructions">Select a number bigger than the previously selected</string>
     <string name="play_action">Play</string>
     <string name="score_action">Score</string>
 
     // Game
-    <string name="well_done">Well Done</string>
+    <string name="well_done">Well Done!</string>
     <string name="see_score">See Score</string>
 
     // Score
@@ -27,6 +27,6 @@
     <string name="version">Version %s</string>
     <string name="edit_action">Edit</string>
     <string name="done_action">Done</string>
-    <string name="internet_required">Internet required to see global score</string>
+    <string name="internet_required">Internet is required to see the global score</string>
 
 </resources>

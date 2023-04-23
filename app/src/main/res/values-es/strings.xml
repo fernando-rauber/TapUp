@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // Home
+    <string name="game_instructions_title">Cómo Jugar</string>
+    <string name="game_instructions">Seleccione un número mayor que el seleccionado anteriormente</string>
+    <string name="play_action">Jugar</string>
+    <string name="score_action">Puntuación</string>
+
+    // Game
+    <string name="well_done">Finalizado!</string>
+    <string name="see_score">Puntuación</string>
+
+    // Score
+    <string name="global_score">Puntuación Global</string>
+    <string name="my_record">Mi Record</string>
+    <string name="score">Puntuación</string>
+    <string name="close_action">Cerrar</string>
+
+    // Settings
+    <string name="settings_title">Ajustes</string>
+    <string name="privacy_policy">Política de Privacidad</string>
+    <string name="version">Versión %s</string>
+    <string name="edit_action">Editar</string>
+    <string name="done_action">Pronto</string>
+    <string name="internet_required">Se requiere Internet para ver la puntuación global</string>
+</resources>

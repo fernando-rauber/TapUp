@@ -19,8 +19,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,10 +62,18 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
         ) {
 
             Text(
-                text = stringResource(R.string.game_instructions),
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontSize = 22.sp)) {
+                        append(stringResource(R.string.game_instructions_title))
+                    }
+                    append("\n\n")
+                    withStyle(style = SpanStyle(fontSize = 16.sp)) {
+                        append(stringResource(R.string.game_instructions))
+                    }
+                },
                 color = MaterialTheme.colorScheme.onBackground,
                 fontFamily = myFontKaph,
-                fontWeight = FontWeight.Normal,
+                lineHeight = 25.sp,
                 textAlign = TextAlign.Center
             )
 
