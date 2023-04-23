@@ -1,5 +1,6 @@
 package uk.fernando.tapup.usecase
 
+import android.content.ContentValues
 import uk.fernando.logger.MyLogger
 
 class GameUseCase(private val logger: MyLogger) {
@@ -36,14 +37,20 @@ class GameUseCase(private val logger: MyLogger) {
     }
 
     private fun generateNextNumbers() {
-        numberList.clear()
+        kotlin.runCatching {
+            numberList.clear()
 
-        for (i in 1..4) {
-            numberList.add(createNewNumber())
+            for (i in 1..4) {
+                numberList.add(createNewNumber())
+            }
+
+            if (numberList.firstOrNull { it > currentMaxNumber } == null)
+                generateNextNumbers()
+        }.onFailure {
+            logger.e(ContentValues.TAG, it.message.toString())
+            logger.addMessageToCrashlytics(ContentValues.TAG, "Error on generateNextNumbers - msg: ${it.message}")
+            logger.addExceptionToCrashlytics(it)
         }
-
-        if (numberList.firstOrNull { it > currentMaxNumber } == null)
-            generateNextNumbers()
     }
 
     private fun createNewNumber(): Int {

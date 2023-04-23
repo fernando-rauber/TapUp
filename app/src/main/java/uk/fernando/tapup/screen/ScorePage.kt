@@ -1,7 +1,6 @@
 package uk.fernando.tapup.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -98,9 +97,8 @@ private fun LeadingBoard(modifier: Modifier, viewModel: ScoreViewModel) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(4.dp, RoundedCornerShape(10))
-            .border(8.dp, Color.White.copy(0.8f), RoundedCornerShape(10))
-            .background(Brush.radialGradient(colors = listOf(light_blue, light_blue2)), alpha = 0.75f)
+            .shadow(4.dp, RoundedCornerShape(6))
+            .background(Brush.radialGradient(colors = listOf(light_blue, light_blue2)), RoundedCornerShape(6), alpha = 0.75f)
     ) {
 
         Column(Modifier.padding(16.dp)) {
@@ -174,7 +172,7 @@ private fun ScoreCard(score: ScoreModel) {
             text = score.score.toString(),
             fontFamily = myFontKaph,
             fontSize = 15.sp,
-            color = yellow
+            color = yellow.copy(.7f)
         )
     }
 }

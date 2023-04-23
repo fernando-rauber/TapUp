@@ -18,33 +18,53 @@ class ScoreUseCase(private val repository: ScoreRepository, private val prefs: P
     private var userName: String = ""
 
     suspend fun getUserBestScore(newScore: Int) = withContext(Dispatchers.IO) {
-        getGlobalScoreList()
+        kotlin.runCatching {
+            getGlobalScoreList()
 
-        var userBestScore = prefs.score()
+            var userBestScore = prefs.score()
 
-        if (userBestScore < newScore) {
-            prefs.storeScore(newScore)
-            userBestScore = newScore
-        }
+            if (userBestScore < newScore) {
+                prefs.storeScore(newScore)
+                userBestScore = newScore
+            }
 
-        bestScore = userBestScore
-        userID = prefs.userID()
-        userName = prefs.userName()
+            bestScore = userBestScore
+            userID = prefs.userID()
+            userName = prefs.userName()
 
-        checkIfUserGotIntoTop10()
+            checkIfUserGotIntoTop10()
 
-        bestScore
+            bestScore
+        }.onFailure {
+            logger.e(TAG, it.message.toString())
+            logger.addMessageToCrashlytics(TAG, "Error on getUserBestScore - msg: ${it.message}")
+            logger.addExceptionToCrashlytics(it)
+        }.getOrElse { bestScore }
     }
 
     private suspend fun checkIfUserGotIntoTop10() {
-        val isPlayerOnBoard = top10ScoreList.value.firstOrNull { it.uuid == userID }
-        if (isPlayerOnBoard != null) {
-            if (isPlayerOnBoard.score < bestScore) {
+        kotlin.runCatching {
+            val isPlayerOnBoard = top10ScoreList.value.firstOrNull { it.uuid == userID }
+            if (isPlayerOnBoard != null) {
+                if (isPlayerOnBoard.score < bestScore) {
+                    val newTop10 = top10ScoreList.value.toMutableList()
+
+                    val indexPlayer = newTop10.indexOf(isPlayerOnBoard)
+
+                    newTop10[indexPlayer].score = bestScore
+
+                    // Update top 10
+                    withContext(Dispatchers.IO) {
+                        repository.updateScoreList(newTop10.sortedByDescending { it.score }.take(10))
+                        getGlobalScoreList()
+                    }
+                }
+            } else if (top10ScoreList.value.firstOrNull { it.score < bestScore } != null) {
+                Log.e(TAG, "checkIfUserGotIntoTop10: ")
+
                 val newTop10 = top10ScoreList.value.toMutableList()
 
-                val indexPlayer = newTop10.indexOf(isPlayerOnBoard)
-
-                newTop10[indexPlayer].score = bestScore
+                newTop10.add(ScoreModel(userID, userName, bestScore))
 
                 // Update top 10
                 withContext(Dispatchers.IO) {
@@ -52,39 +72,37 @@ class ScoreUseCase(private val repository: ScoreRepository, private val prefs: P
                     getGlobalScoreList()
                 }
             }
-        } else if (top10ScoreList.value.firstOrNull { it.score < bestScore } != null) {
-            Log.e(TAG, "checkIfUserGotIntoTop10: ")
-
-            val newTop10 = top10ScoreList.value.toMutableList()
-
-            newTop10.add(ScoreModel(userID, userName, bestScore))
-
-            // Update top 10
-            withContext(Dispatchers.IO) {
-                repository.updateScoreList(newTop10.sortedByDescending { it.score }.take(10))
-                getGlobalScoreList()
-            }
+        }.onFailure {
+            logger.e(TAG, it.message.toString())
+            logger.addMessageToCrashlytics(TAG, "Error on checkIfUserGotIntoTop10 - msg: ${it.message}")
+            logger.addExceptionToCrashlytics(it)
         }
     }
 
     suspend fun updateUserNameAtBoardTop10() {
-        userID = prefs.userID()
-        userName = prefs.userName()
+        kotlin.runCatching {
+            userID = prefs.userID()
+            userName = prefs.userName()
 
-        repository.getScoreBoardList().collect { top10 ->
-            val isPlayerOnBoard = top10.firstOrNull { it.uuid == userID }
-            if (isPlayerOnBoard != null) {
+            repository.getScoreBoardList().collect { top10 ->
+                val isPlayerOnBoard = top10.firstOrNull { it.uuid == userID }
+                if (isPlayerOnBoard != null) {
 
-                val indexPlayer = top10.indexOf(isPlayerOnBoard)
+                    val indexPlayer = top10.indexOf(isPlayerOnBoard)
 
-                top10[indexPlayer].name = userName
+                    top10[indexPlayer].name = userName
 
-                // Update name on top 10
-                withContext(Dispatchers.IO) {
-                    repository.updateScoreList(top10)
-                    getGlobalScoreList()
+                    // Update name on top 10
+                    withContext(Dispatchers.IO) {
+                        repository.updateScoreList(top10)
+                        getGlobalScoreList()
+                    }
                 }
             }
+        }.onFailure {
+            logger.e(TAG, it.message.toString())
+            logger.addMessageToCrashlytics(TAG, "Error on updateUserNameAtBoardTop10 - msg: ${it.message}")
+            logger.addExceptionToCrashlytics(it)
         }
     }
 

@@ -88,11 +88,7 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
             )
         }
 
-        Box(
-            modifier = Modifier
-                .align(BottomCenter)
-                .padding(bottom = 8.dp)
-        ) {
+        Box(modifier = Modifier.align(BottomCenter)) {
             AdBanner(unitId = R.string.ad_banner_home)
         }
     }
