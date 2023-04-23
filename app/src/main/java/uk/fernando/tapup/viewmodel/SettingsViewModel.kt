@@ -2,24 +2,26 @@ package uk.fernando.tapup.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import dagger.hilt.android.lifecycle.HiltViewModel
-import uk.fernando.tapup.datastore.PrefsStore
+import uk.fernando.tapup.usecase.PrefUseCase
 import uk.fernando.tapup.usecase.ScoreUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(private val prefsStore: PrefsStore, private val useCase: ScoreUseCase) : BaseViewModel() {
+class SettingsViewModel @Inject constructor(private val prefsUseCase: PrefUseCase, private val useCase: ScoreUseCase) : BaseViewModel() {
 
+    val playerID = mutableStateOf("")
     val playerName = mutableStateOf("")
 
     init {
         launch {
-            playerName.value = prefsStore.userName().substringBefore("_")
+            playerID.value = prefsUseCase.getUserId().take(6)
+            playerName.value = prefsUseCase.getUserName()
         }
     }
 
     fun updateName(newName: String) {
         launchDefault {
-            prefsStore.storeUserName(newName)
+            prefsUseCase.updateName(newName)
             playerName.value = newName
 
             useCase.updateUserNameAtBoardTop10()

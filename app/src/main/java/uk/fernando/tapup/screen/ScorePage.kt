@@ -162,7 +162,7 @@ private fun ScoreCard(score: ScoreModel) {
     ) {
         Text(
             modifier = Modifier.weight(1f),
-            text = score.name,
+            text = score.name.plus("(${score.uuid.take(6)})"),
             fontFamily = myFontKaph,
             fontSize = 15.sp,
             color = MaterialTheme.colorScheme.onBackground

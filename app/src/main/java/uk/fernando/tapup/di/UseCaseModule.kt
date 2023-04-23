@@ -8,6 +8,7 @@ import uk.fernando.logger.MyLogger
 import uk.fernando.tapup.datastore.PrefsStore
 import uk.fernando.tapup.repository.ScoreRepository
 import uk.fernando.tapup.usecase.GameUseCase
+import uk.fernando.tapup.usecase.PrefUseCase
 import uk.fernando.tapup.usecase.ScoreUseCase
 
 @Module
@@ -18,5 +19,8 @@ object UseCaseModule {
     fun provideGameUseCase(logger: MyLogger) = GameUseCase(logger)
 
     @Provides
-    fun provideScoreUseCase(repository: ScoreRepository, prefs: PrefsStore, logger: MyLogger) = ScoreUseCase(repository, prefs, logger)
+    fun providePrefUseCase(prefs: PrefsStore) = PrefUseCase(prefs)
+
+    @Provides
+    fun provideScoreUseCase(repository: ScoreRepository, prefsUseCase: PrefUseCase, logger: MyLogger) = ScoreUseCase(repository, prefsUseCase, logger)
 }

@@ -6,11 +6,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import uk.fernando.logger.MyLogger
-import uk.fernando.tapup.datastore.PrefsStore
 import uk.fernando.tapup.model.ScoreModel
 import uk.fernando.tapup.repository.ScoreRepository
+import java.util.UUID
 
-class ScoreUseCase(private val repository: ScoreRepository, private val prefs: PrefsStore, private val logger: MyLogger) {
+class ScoreUseCase(private val repository: ScoreRepository, private val prefsUseCase: PrefUseCase, private val logger: MyLogger) {
 
     val top10ScoreList = MutableStateFlow<List<ScoreModel>>(emptyList())
     private var bestScore: Int = 0
@@ -21,16 +21,16 @@ class ScoreUseCase(private val repository: ScoreRepository, private val prefs: P
         kotlin.runCatching {
             getGlobalScoreList()
 
-            var userBestScore = prefs.score()
+            var userBestScore = prefsUseCase.getScore()
 
             if (userBestScore < newScore) {
-                prefs.storeScore(newScore)
+                prefsUseCase.updateScore(newScore)
                 userBestScore = newScore
             }
 
             bestScore = userBestScore
-            userID = prefs.userID()
-            userName = prefs.userName()
+            userID = prefsUseCase.getUserId()
+            userName = prefsUseCase.getUserName()
 
             checkIfUserGotIntoTop10()
 
@@ -81,8 +81,8 @@ class ScoreUseCase(private val repository: ScoreRepository, private val prefs: P
 
     suspend fun updateUserNameAtBoardTop10() {
         kotlin.runCatching {
-            userID = prefs.userID()
-            userName = prefs.userName()
+            userID = prefsUseCase.getUserId()
+            userName = prefsUseCase.getUserName()
 
             repository.getScoreBoardList().collect { top10 ->
                 val isPlayerOnBoard = top10.firstOrNull { it.uuid == userID }
@@ -109,16 +109,16 @@ class ScoreUseCase(private val repository: ScoreRepository, private val prefs: P
     private suspend fun getGlobalScoreList() {
 //        withContext(Dispatchers.IO) {
 //            val newList = listOf(
-//                ScoreModel("11111", "User 1", 10),
-//                ScoreModel("22222", "User 2", 100),
-//                ScoreModel("33333", "User 3", 200),
-//                ScoreModel("44444", "User 4", 300),
-//                ScoreModel("55555", "User 5", 400),
-//                ScoreModel("66666", "User 6", 500),
-//                ScoreModel("77777", "User 7", 600),
-//                ScoreModel("88888", "User 8", 700),
-//                ScoreModel("99999", "User 9", 800),
-//                ScoreModel("00000", "User 10", 900),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 10),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 50),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 100),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 150),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 200),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 250),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 300),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 350),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 400),
+//                ScoreModel(UUID.randomUUID().toString(), "Player${(100..999).random()}", 450),
 //            )
 //
 //            repository.updateScoreList(newList.sortedByDescending { it.score })

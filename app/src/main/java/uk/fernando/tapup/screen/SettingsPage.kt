@@ -55,6 +55,7 @@ fun SettingsPage(
         ) {
 
             CustomEditPlayerName(
+                id = viewModel.playerID.value,
                 name = viewModel.playerName.value,
                 onNameChange = viewModel::updateName
             )
@@ -96,7 +97,7 @@ fun SettingsPage(
 }
 
 @Composable
-private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
+private fun CustomEditPlayerName(id: String, name: String, onNameChange: (String) -> Unit) {
     var isEditMode by remember { mutableStateOf(false) }
 
     Box(
@@ -111,7 +112,7 @@ private fun CustomEditPlayerName(name: String, onNameChange: (String) -> Unit) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
 
                     Text(
-                        text = name,
+                        text = name.plus("($id)"),
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.White,
                         modifier = Modifier

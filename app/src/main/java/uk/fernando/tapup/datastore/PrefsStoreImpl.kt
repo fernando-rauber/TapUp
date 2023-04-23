@@ -9,7 +9,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import java.util.*
 
 private const val STORE_NAME = "tapup_data_store"
 
@@ -24,29 +23,11 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
     }
 
     override suspend fun userID(): String {
-        return dataStore.data.map { prefs ->
-            if (prefs[PreferencesKeys.USER_ID] != null)
-                prefs[PreferencesKeys.USER_ID]!!
-            else {
-                val newID = UUID.randomUUID().toString()
-                storeUserID(newID)
-
-                newID
-            }
-        }.first()
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.USER_ID] ?: "" }.first()
     }
 
     override suspend fun userName(): String {
-        return dataStore.data.map { prefs ->
-            if (prefs[PreferencesKeys.USER_NAME] != null)
-                prefs[PreferencesKeys.USER_NAME]!!
-            else {
-                val userName = "Player_${(10000..99999).random()}"
-
-                storeUserName(userName)
-                userName
-            }
-        }.first()
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.USER_NAME] ?: "" }.first()
     }
 
     override suspend fun storeScore(score: Int) {
@@ -54,7 +35,7 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
     }
 
     override suspend fun storeUserID(id: String) {
-        dataStore.edit { prefs -> prefs[PreferencesKeys.USER_ID] = id.plus("_" + userID().take(4)) }
+        dataStore.edit { prefs -> prefs[PreferencesKeys.USER_ID] = id }
     }
 
     override suspend fun storeUserName(name: String) {
