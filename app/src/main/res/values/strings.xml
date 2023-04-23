@@ -27,5 +27,6 @@
     <string name="version">Version %s</string>
     <string name="edit_action">Edit</string>
     <string name="done_action">Done</string>
+    <string name="internet_required">Internet required to see global score</string>
 
 </resources>

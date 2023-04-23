@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -20,10 +21,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import uk.fernando.advertising.component.AdBanner
 import uk.fernando.tapup.R
 import uk.fernando.tapup.components.SimpleCard
 import uk.fernando.tapup.model.ScoreModel
@@ -45,9 +48,17 @@ fun ScorePage(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp),
         horizontalAlignment = CenterHorizontally
     ) {
+
+        AdBanner(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 6.dp)
+                .defaultMinSize(minHeight = 50.dp),
+            unitId = R.string.ad_banner_score
+        )
 
         LeadingBoard(
             modifier = Modifier.weight(2f),
@@ -68,7 +79,8 @@ fun ScorePage(
         MyImageButton(
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .defaultMinSize(minHeight = 60.dp),
+                .defaultMinSize(minHeight = 60.dp)
+                .padding(bottom = 16.dp),
             image = R.drawable.bt_yellow,
             text = stringResource(R.string.close_action).uppercase(),
             textColor = purple,
@@ -88,7 +100,7 @@ private fun LeadingBoard(modifier: Modifier, viewModel: ScoreViewModel) {
             .fillMaxWidth()
             .shadow(4.dp, RoundedCornerShape(10))
             .border(8.dp, Color.White.copy(0.8f), RoundedCornerShape(10))
-            .background(Brush.verticalGradient(colors = listOf(light_blue, light_blue2)), alpha = 0.6f)
+            .background(Brush.radialGradient(colors = listOf(light_blue, light_blue2)), alpha = 0.75f)
     ) {
 
         Column(Modifier.padding(16.dp)) {
@@ -116,15 +128,27 @@ private fun LeadingBoard(modifier: Modifier, viewModel: ScoreViewModel) {
                 )
             }
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 20.dp)
-            ) {
-                items(viewModel.globalScore.value) { score ->
-                    ScoreCard(score)
+            if (viewModel.globalScore.value.isEmpty()) {
+                Box(Modifier.fillMaxSize()) {
+                    Text(
+                        modifier = Modifier.align(Center),
+                        text = stringResource(R.string.internet_required),
+                        fontFamily = myFontKaph,
+                        fontSize = 16.sp,
+                        color = purple,
+                        textAlign = TextAlign.Center
+                    )
                 }
-            }
+            } else
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 20.dp)
+                ) {
+                    items(viewModel.globalScore.value) { score ->
+                        ScoreCard(score)
+                    }
+                }
         }
     }
 }

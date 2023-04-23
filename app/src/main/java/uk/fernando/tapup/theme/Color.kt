@@ -7,7 +7,7 @@ val game_orange = Color(0xFFFFE100)
 val game_green = Color(0xFF18cda0)
 
 val light_blue = Color(0xFF00F7F2)
-val light_blue2 = Color(0xFF00B1B9)
+val light_blue2 = Color(0xFF00959C)
 
 val lightDark = Color(0xFF1C2939)
 val dark = Color(0xFF141C28)
