@@ -135,12 +135,11 @@ private fun TopBar(
 fun MyImageButton(
     modifier: Modifier = Modifier,
     @DrawableRes image: Int,
-    text: String,
+    text: String? = null,
     enabled: Boolean = true,
     textColor: Color = Color.White,
     fontSize: TextUnit = 27.sp,
     soundEffect: Int? = uk.fernando.uikit.R.raw.click,
-    textModifier: Modifier = Modifier,
     @DrawableRes trailingIcon: Int? = null,
     onClick: () -> Unit,
 ) {
@@ -171,20 +170,21 @@ fun MyImageButton(
                 Icon(
                     modifier = Modifier
                         .size(52.dp)
-                        .padding(end = 10.dp),
+                        .padding(end = if (text != null) 10.dp else 0.dp)
+                        .padding(vertical = if (text != null) 0.dp else 6.dp),
                     painter = painterResource(trailingIcon),
                     contentDescription = null,
                     tint = textColor
                 )
 
-            Text(
-                modifier = textModifier,
-                text = text,
-                color = if (enabled) textColor else Color.Black,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                fontSize = fontSize
-            )
+            if (text != null)
+                Text(
+                    text = text,
+                    color = if (enabled) textColor else Color.Black,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = fontSize
+                )
         }
     }
 }

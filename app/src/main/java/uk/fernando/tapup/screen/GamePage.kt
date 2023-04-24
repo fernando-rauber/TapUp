@@ -113,6 +113,7 @@ fun GamePage(
         DialogResult(
             viewModel = viewModel,
             fullScreenAd = fullScreenAd,
+            onReplayClick = viewModel::replay,
             onScoreClick = {
                 navController.popBackStack()
                 navController.safeNav(Directions.score.path)
@@ -248,6 +249,7 @@ private fun Timer(modifier: Modifier, viewModel: GameViewModel) {
 fun DialogResult(
     viewModel: GameViewModel,
     fullScreenAd: AdInterstitial,
+    onReplayClick: () -> Unit,
     onScoreClick: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -310,17 +312,31 @@ fun DialogResult(
                         value = viewModel.lastNumberSelected.value
                     )
 
-                    MyImageButton(
-                        modifier = Modifier
-                            .padding(vertical = 16.dp)
-                            .defaultMinSize(minHeight = 60.dp),
-                        image = R.drawable.bt_yellow,
-                        text = stringResource(R.string.see_score).uppercase(),
-                        textColor = purple,
-                        onClick = onScoreClick
-                    )
-                }
+                    Row(Modifier.padding(8.dp)) {
 
+                        MyImageButton(
+                            modifier = Modifier
+                                .weight(1f)
+                                .defaultMinSize(minHeight = 60.dp),
+                            image = R.drawable.bt_purple,
+                            textColor = Color.White,
+                            trailingIcon = R.drawable.ic_replay,
+                            onClick = onReplayClick
+                        )
+
+                        Spacer(Modifier.width(8.dp))
+
+                        MyImageButton(
+                            modifier = Modifier
+                                .weight(1f)
+                                .defaultMinSize(minHeight = 60.dp),
+                            image = R.drawable.bt_yellow,
+                            textColor = purple,
+                            trailingIcon = R.drawable.ic_trophy,
+                            onClick = onScoreClick
+                        )
+                    }
+                }
             }
         }
     }

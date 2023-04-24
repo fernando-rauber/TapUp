@@ -14,6 +14,15 @@ class GameUseCase(private val logger: MyLogger) {
         generateNextNumbers()
     }
 
+    fun reset() {
+        currentMaxNumber = 10
+        numberList.clear()
+        nextNumberIndex = -1
+        mistakesLeft = 3
+
+        generateNextNumbers()
+    }
+
     fun setNewNumber(number: Int): Boolean {
         return if (number > currentMaxNumber) {
             currentMaxNumber = number

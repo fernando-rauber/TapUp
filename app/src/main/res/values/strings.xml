@@ -13,7 +13,6 @@
 
     // Game
     <string name="well_done">Well Done!</string>
-    <string name="see_score">See Score</string>
 
     // Score
     <string name="global_score">Global Score</string>

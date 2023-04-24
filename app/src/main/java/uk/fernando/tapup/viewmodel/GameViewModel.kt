@@ -47,6 +47,16 @@ class GameViewModel @Inject constructor(private val useCase: GameUseCase, privat
         }
     }
 
+    fun replay() {
+        chronometerSeconds.value = 61
+        useCase.reset()
+        gameStatus.value = GameStatus.INIT
+        mistakeLeft.value = useCase.getMistakesLeft()
+        lastNumberSelected.value = 10
+        currentNumber.value = 0
+        chronometer.start()
+    }
+
     val chronometerSeconds = mutableStateOf(61)
 
     private val chronometer = object : CountDownTimer(61000, 1000) {

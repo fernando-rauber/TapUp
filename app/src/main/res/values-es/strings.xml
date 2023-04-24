@@ -8,7 +8,6 @@
 
     // Game
     <string name="well_done">Finalizado!</string>
-    <string name="see_score">Puntuación</string>
 
     // Score
     <string name="global_score">Puntuación Global</string>
