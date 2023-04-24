@@ -1,5 +1,6 @@
 package uk.fernando.tapup.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import uk.fernando.tapup.R
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.navigation.buildGraph
+import uk.fernando.tapup.service.MusicService
 import uk.fernando.tapup.theme.TapUpTheme
 import uk.fernando.uikit.component.UpdateStatusBar
 
@@ -52,5 +54,17 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val intent = Intent(MusicService.PLAY_HOME_MUSIC)
+        intent.setPackage(packageName)
+        startService(intent)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        stopService(Intent(this, MusicService::class.java))
     }
 }

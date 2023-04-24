@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:allowBackup="true"
         android:name=".BaseApplication"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -20,6 +20,15 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${enableCrashReporting}" />
+
+        <service
+            android:name=".service.MusicService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="uk.fernando.tapup.service.MusicService.HOME_MUSIC" />
+                <action android:name="uk.fernando.tapup.service.MusicService.GAME_MUSIC" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".activity.MainActivity"

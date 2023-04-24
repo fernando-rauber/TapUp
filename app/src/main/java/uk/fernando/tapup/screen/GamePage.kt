@@ -1,5 +1,6 @@
 package uk.fernando.tapup.screen
 
+import android.content.Intent
 import android.media.MediaPlayer
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import uk.fernando.advertising.AdInterstitial
@@ -35,12 +37,14 @@ import uk.fernando.tapup.activity.MainActivity
 import uk.fernando.tapup.components.SimpleCard
 import uk.fernando.tapup.ext.timerFormat
 import uk.fernando.tapup.navigation.Directions
+import uk.fernando.tapup.service.MusicService
 import uk.fernando.tapup.theme.*
 import uk.fernando.tapup.util.GameStatus
 import uk.fernando.tapup.viewmodel.GameViewModel
 import uk.fernando.uikit.component.MyAnimatedVisibility
 import uk.fernando.uikit.component.MyDialog
 import uk.fernando.uikit.component.MyIconButton
+import uk.fernando.uikit.event.OnLifecycleEvent
 import uk.fernando.uikit.ext.clickableSingle
 import uk.fernando.uikit.ext.playAudio
 import uk.fernando.uikit.ext.safeNav
@@ -51,10 +55,24 @@ fun GamePage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: GameViewModel = hiltViewModel(),
 ) {
+    val activity = LocalContext.current as MainActivity
     val coroutine = rememberCoroutineScope()
-    val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_interstitial_end_level))
+    val fullScreenAd = AdInterstitial(activity, stringResource(R.string.ad_interstitial_end_level))
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
     val soundWrong = MediaPlayer.create(LocalContext.current, R.raw.wrong)
+
+    OnLifecycleEvent { _, event ->
+        if (event == Lifecycle.Event.ON_CREATE) {
+            val intent = Intent(MusicService.PLAY_GAME_MUSIC)
+            intent.setPackage(activity.packageName)
+            activity.startService(intent)
+        }
+        if (event == Lifecycle.Event.ON_STOP) {
+            val intent = Intent(MusicService.PLAY_HOME_MUSIC)
+            intent.setPackage(activity.packageName)
+            activity.startService(intent)
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.startGame()
