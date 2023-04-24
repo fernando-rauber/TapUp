@@ -1,5 +1,6 @@
 package uk.fernando.tapup.usecase
 
+import kotlinx.coroutines.flow.first
 import uk.fernando.tapup.datastore.PrefsStore
 import java.util.*
 
@@ -35,5 +36,12 @@ class PrefUseCase(private val prefsStore: PrefsStore) {
 
     suspend fun updateName(newName: String) {
         prefsStore.storeUserName(newName)
+    }
+
+    suspend fun isSoundEnabled() = prefsStore.isSoundEnabled().first()
+
+    suspend fun updateMusicEnable() {
+        val isSoundEnabled = prefsStore.isSoundEnabled().first()
+        prefsStore.storeSound(!isSoundEnabled)
     }
 }

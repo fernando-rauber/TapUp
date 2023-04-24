@@ -18,6 +18,8 @@
 
     // Settings
     <string name="settings_title">Configurações</string>
+    <string name="sound">Música habilitada</string>
+    <string name="sound_subtext">Ativar som de música</string>
     <string name="privacy_policy">Política de Privacidade</string>
     <string name="version">Versão %s</string>
     <string name="edit_action">Editar</string>

@@ -62,15 +62,17 @@ fun GamePage(
     val soundWrong = MediaPlayer.create(LocalContext.current, R.raw.wrong)
 
     OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_CREATE) {
-            val intent = Intent(MusicService.PLAY_GAME_MUSIC)
-            intent.setPackage(activity.packageName)
-            activity.startService(intent)
-        }
-        if (event == Lifecycle.Event.ON_STOP) {
-            val intent = Intent(MusicService.PLAY_HOME_MUSIC)
-            intent.setPackage(activity.packageName)
-            activity.startService(intent)
+        if(viewModel.isSoundEnable.value) {
+            if (event == Lifecycle.Event.ON_CREATE) {
+                val intent = Intent(MusicService.PLAY_GAME_MUSIC)
+                intent.setPackage(activity.packageName)
+                activity.startService(intent)
+            }
+            if (event == Lifecycle.Event.ON_STOP) {
+                val intent = Intent(MusicService.PLAY_HOME_MUSIC)
+                intent.setPackage(activity.packageName)
+                activity.startService(intent)
+            }
         }
     }
 

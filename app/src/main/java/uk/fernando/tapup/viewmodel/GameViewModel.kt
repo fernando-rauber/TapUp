@@ -5,20 +5,27 @@ import androidx.compose.runtime.mutableStateOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flow
 import uk.fernando.tapup.usecase.GameUseCase
+import uk.fernando.tapup.usecase.PrefUseCase
 import uk.fernando.tapup.util.GameStatus
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(private val useCase: GameUseCase) : BaseViewModel() {
+class GameViewModel @Inject constructor(private val useCase: GameUseCase, private val prefsUseCase: PrefUseCase) : BaseViewModel() {
 
     val lastNumberSelected = mutableStateOf(10)
     val currentNumber = mutableStateOf(0)
     val mistakeLeft = mutableStateOf(3)
     val gameStatus = mutableStateOf(GameStatus.INIT)
+    val isSoundEnable = mutableStateOf(false)
+
+    init {
+        launch {
+            isSoundEnable.value = prefsUseCase.isSoundEnabled()
+        }
+    }
 
     fun startGame() {
         chronometer.start()
-
         mistakeLeft.value = useCase.getMistakesLeft()
     }
 

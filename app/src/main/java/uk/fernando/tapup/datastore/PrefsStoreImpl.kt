@@ -2,11 +2,9 @@ package uk.fernando.tapup.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -30,6 +28,10 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.USER_NAME] ?: "" }.first()
     }
 
+    override fun isSoundEnabled(): Flow<Boolean> {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.SOUND_ENABLED] ?: true }
+    }
+
     override suspend fun storeScore(score: Int) {
         dataStore.edit { prefs -> prefs[PreferencesKeys.SCORE] = score }
     }
@@ -42,9 +44,14 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         dataStore.edit { prefs -> prefs[PreferencesKeys.USER_NAME] = name }
     }
 
+    override suspend fun storeSound(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[PreferencesKeys.SOUND_ENABLED] = enabled }
+    }
+
     private object PreferencesKeys {
         val SCORE = intPreferencesKey("score")
         val USER_ID = stringPreferencesKey("user_id")
         val USER_NAME = stringPreferencesKey("user_name")
+        val SOUND_ENABLED = booleanPreferencesKey("sound_enabled")
     }
 }

@@ -27,11 +27,13 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import uk.fernando.advertising.component.AdBanner
 import uk.fernando.tapup.R
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.theme.myFontKaph
+import uk.fernando.tapup.viewmodel.HomeViewModel
 import uk.fernando.uikit.component.MyIconButton
 import uk.fernando.uikit.event.MultipleEventsCutter
 import uk.fernando.uikit.event.get
@@ -40,18 +42,17 @@ import uk.fernando.uikit.ext.playAudio
 import uk.fernando.uikit.ext.safeNav
 
 @Composable
-fun HomePage(navController: NavController = NavController(LocalContext.current)) {
+fun HomePage(
+    navController: NavController = NavController(LocalContext.current),
+    viewModel: HomeViewModel = hiltViewModel()
+) {
 
     Box(Modifier.fillMaxSize()) {
 
-        MyIconButton(
-            icon = R.drawable.ic_settings,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(8.dp),
-            onClick = { navController.safeNav(Directions.settings.path) },
-            tint = Color.White.copy(0.7f)
-        )
+        TopBar(
+            isMusicEnable = viewModel.isSoundEnable.value,
+            onMusicClick = viewModel::updateSound,
+            onSettingsClick = { navController.safeNav(Directions.settings.path) })
 
         Column(
             modifier = Modifier
@@ -102,6 +103,31 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
         Box(modifier = Modifier.align(BottomCenter)) {
             AdBanner(unitId = R.string.ad_banner_home)
         }
+    }
+}
+
+@Composable
+private fun TopBar(
+    isMusicEnable: Boolean,
+    onMusicClick: () -> Unit,
+    onSettingsClick: () -> Unit
+) {
+    Row(Modifier.padding(8.dp)) {
+        MyIconButton(
+            icon = if (isMusicEnable) R.drawable.ic_music_on else R.drawable.ic_music_off,
+            modifier = Modifier,
+            onClick = onMusicClick,
+            tint = Color.Unspecified
+        )
+
+        Spacer(Modifier.weight(1f))
+
+        MyIconButton(
+            icon = R.drawable.ic_settings,
+            modifier = Modifier,
+            onClick = onSettingsClick,
+            tint = Color.White.copy(0.7f)
+        )
     }
 }
 

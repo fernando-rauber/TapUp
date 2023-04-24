@@ -11,11 +11,13 @@ class SettingsViewModel @Inject constructor(private val prefsUseCase: PrefUseCas
 
     val playerID = mutableStateOf("")
     val playerName = mutableStateOf("")
+    val isSoundEnable = mutableStateOf(true)
 
     init {
         launch {
             playerID.value = prefsUseCase.getUserId().take(6)
             playerName.value = prefsUseCase.getUserName()
+            isSoundEnable.value = prefsUseCase.isSoundEnabled()
         }
     }
 
@@ -25,6 +27,13 @@ class SettingsViewModel @Inject constructor(private val prefsUseCase: PrefUseCas
             playerName.value = newName
 
             useCase.updateUserNameAtBoardTop10()
+        }
+    }
+
+    fun updateSound() {
+        launch {
+            prefsUseCase.updateMusicEnable()
+            isSoundEnable.value = !isSoundEnable.value
         }
     }
 }
