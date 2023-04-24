@@ -20,9 +20,9 @@ class ScoreViewModel @Inject constructor(private val useCase: ScoreUseCase) : Ba
         }
     }
 
-    fun fetchAllScores(newScore: Int) {
+    fun fetchAllScores() {
         launchDefault {
-            myBestScore.value = useCase.getUserBestScore(newScore)
+            myBestScore.value = useCase.getUserBestScore()
         }
     }
 }

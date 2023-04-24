@@ -1,31 +1,10 @@
 package uk.fernando.tapup.navigation
 
 import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 
 interface NavigationCommand {
     val path: String
     val arguments: List<NamedNavArgument>
-
-    // build navigation path (for screen navigation)
-    fun withArgs(vararg args: String): String {
-        return buildString {
-            append(path)
-            args.forEach { arg ->
-                append("/$arg")
-            }
-        }
-    }
-
-    fun withArgsFormat(vararg args: String): String {
-        return buildString {
-            append(path)
-            args.forEach { arg ->
-                append("/{$arg}")
-            }
-        }
-    }
 }
 
 object Directions {
@@ -48,9 +27,7 @@ object Directions {
         override val path: String
             get() = "score"
         override val arguments: List<NamedNavArgument>
-            get() = listOf(
-                navArgument(SCORE) { type = NavType.StringType }
-            )
+            get() = emptyList()
     }
 
     val settings = object : NavigationCommand {
@@ -60,5 +37,3 @@ object Directions {
             get() = emptyList()
     }
 }
-
-const val SCORE = "score"

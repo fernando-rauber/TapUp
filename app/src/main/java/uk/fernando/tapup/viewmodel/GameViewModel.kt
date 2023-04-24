@@ -58,6 +58,7 @@ class GameViewModel @Inject constructor(private val useCase: GameUseCase, privat
         override fun onFinish() {
             chronometerSeconds.value = 0
             gameStatus.value = GameStatus.END_GAME
+            launchDefault { prefsUseCase.updateScore(lastNumberSelected.value) }
         }
     }
 }

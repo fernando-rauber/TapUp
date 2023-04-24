@@ -32,16 +32,14 @@ import uk.fernando.tapup.model.ScoreModel
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.theme.*
 import uk.fernando.tapup.viewmodel.ScoreViewModel
-import uk.fernando.uikit.ext.safeNav
 
 @Composable
 fun ScorePage(
     navController: NavController = NavController(LocalContext.current),
-    newScore: Int,
     viewModel: ScoreViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        viewModel.fetchAllScores(newScore)
+        viewModel.fetchAllScores()
     }
 
     Column(
@@ -84,9 +82,9 @@ fun ScorePage(
             text = stringResource(R.string.close_action).uppercase(),
             textColor = purple,
             onClick = {
+                if (navController.previousBackStackEntry?.destination?.route == Directions.game.path)
+                    navController.popBackStack()
                 navController.popBackStack()
-                if (newScore > 0)
-                    navController.safeNav(Directions.home.path)
             }
         )
     }

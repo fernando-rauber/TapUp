@@ -96,7 +96,7 @@ fun HomePage(
                 image = R.drawable.bt_purple,
                 text = stringResource(R.string.score_action).uppercase(),
                 trailingIcon = R.drawable.ic_trophy,
-                onClick = { navController.safeNav(Directions.score.withArgs("0")) }
+                onClick = { navController.safeNav(Directions.score.path) }
             )
         }
 

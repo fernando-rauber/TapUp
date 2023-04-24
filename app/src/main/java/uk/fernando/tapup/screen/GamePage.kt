@@ -62,7 +62,7 @@ fun GamePage(
     val soundWrong = MediaPlayer.create(LocalContext.current, R.raw.wrong)
 
     OnLifecycleEvent { _, event ->
-        if(viewModel.isSoundEnable.value) {
+        if (viewModel.isSoundEnable.value) {
             if (event == Lifecycle.Event.ON_CREATE) {
                 val intent = Intent(MusicService.PLAY_GAME_MUSIC)
                 intent.setPackage(activity.packageName)
@@ -113,9 +113,9 @@ fun GamePage(
         DialogResult(
             viewModel = viewModel,
             fullScreenAd = fullScreenAd,
-            onClose = { score ->
+            onScoreClick = {
                 navController.popBackStack()
-                navController.safeNav(Directions.score.withArgs("$score"))
+                navController.safeNav(Directions.score.path)
             }
         )
     }
@@ -248,7 +248,7 @@ private fun Timer(modifier: Modifier, viewModel: GameViewModel) {
 fun DialogResult(
     viewModel: GameViewModel,
     fullScreenAd: AdInterstitial,
-    onClose: (Int) -> Unit,
+    onScoreClick: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -317,7 +317,7 @@ fun DialogResult(
                         image = R.drawable.bt_yellow,
                         text = stringResource(R.string.see_score).uppercase(),
                         textColor = purple,
-                        onClick = { onClose(viewModel.lastNumberSelected.value) }
+                        onClick = onScoreClick
                     )
                 }
 

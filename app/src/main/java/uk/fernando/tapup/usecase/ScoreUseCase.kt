@@ -1,14 +1,12 @@
 package uk.fernando.tapup.usecase
 
 import android.content.ContentValues.TAG
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import uk.fernando.logger.MyLogger
 import uk.fernando.tapup.model.ScoreModel
 import uk.fernando.tapup.repository.ScoreRepository
-import java.util.UUID
 
 class ScoreUseCase(private val repository: ScoreRepository, private val prefsUseCase: PrefUseCase, private val logger: MyLogger) {
 
@@ -17,18 +15,11 @@ class ScoreUseCase(private val repository: ScoreRepository, private val prefsUse
     private var userID: String = ""
     private var userName: String = ""
 
-    suspend fun getUserBestScore(newScore: Int) = withContext(Dispatchers.IO) {
+    suspend fun getUserBestScore() = withContext(Dispatchers.IO) {
         kotlin.runCatching {
             getGlobalScoreList()
 
-            var userBestScore = prefsUseCase.getScore()
-
-            if (userBestScore < newScore) {
-                prefsUseCase.updateScore(newScore)
-                userBestScore = newScore
-            }
-
-            bestScore = userBestScore
+            bestScore = prefsUseCase.getScore()
             userID = prefsUseCase.getUserId()
             userName = prefsUseCase.getUserName()
 
@@ -60,7 +51,6 @@ class ScoreUseCase(private val repository: ScoreRepository, private val prefsUse
                     }
                 }
             } else if (top10ScoreList.value.firstOrNull { it.score < bestScore } != null) {
-                Log.e(TAG, "checkIfUserGotIntoTop10: ")
 
                 val newTop10 = top10ScoreList.value.toMutableList()
 

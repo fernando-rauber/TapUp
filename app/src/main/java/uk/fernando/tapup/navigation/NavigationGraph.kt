@@ -18,9 +18,8 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
     composable(Directions.game.path) {
         GamePage(navController)
     }
-    composable(Directions.score.withArgsFormat(SCORE)) {
-        val score = it.arguments?.getString(SCORE)
-        ScorePage(navController, newScore = score?.toInt() ?: 0)
+    composable(Directions.score.path) {
+        ScorePage(navController)
     }
     composable(Directions.settings.path) {
         SettingsPage(navController)
