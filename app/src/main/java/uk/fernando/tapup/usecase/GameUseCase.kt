@@ -63,7 +63,7 @@ class GameUseCase(private val logger: MyLogger) {
     }
 
     private fun createNewNumber(): Int {
-        val newNumber = (currentMaxNumber - 10..currentMaxNumber + 20).random()
+        val newNumber = (currentMaxNumber - 10..currentMaxNumber + 10).random()
 
         return if (numberList.contains(newNumber))
             createNewNumber()

@@ -44,6 +44,7 @@ import uk.fernando.tapup.viewmodel.GameViewModel
 import uk.fernando.uikit.component.MyAnimatedVisibility
 import uk.fernando.uikit.component.MyDialog
 import uk.fernando.uikit.component.MyIconButton
+import uk.fernando.uikit.component.MyImageButton
 import uk.fernando.uikit.event.OnLifecycleEvent
 import uk.fernando.uikit.ext.clickableSingle
 import uk.fernando.uikit.ext.playAudio
@@ -127,6 +128,7 @@ private fun TopBar(viewModel: GameViewModel, onCloseClick: () -> Unit) {
     Box(Modifier.fillMaxWidth()) {
 
         Image(
+            modifier = Modifier.fillMaxWidth(),
             painter = painterResource(R.drawable.bg_header),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
@@ -307,7 +309,7 @@ fun DialogResult(
                     }
 
                     SimpleCard(
-                        modifier = Modifier.padding(vertical = 15.dp),
+                        modifier = Modifier.padding(top = 15.dp, bottom = 30.dp),
                         title = R.string.score,
                         value = viewModel.lastNumberSelected.value
                     )

@@ -32,6 +32,7 @@ import uk.fernando.tapup.model.ScoreModel
 import uk.fernando.tapup.navigation.Directions
 import uk.fernando.tapup.theme.*
 import uk.fernando.tapup.viewmodel.ScoreViewModel
+import uk.fernando.uikit.component.MyImageButton
 
 @Composable
 fun ScorePage(

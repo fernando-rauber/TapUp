@@ -49,8 +49,8 @@ class GameViewModel @Inject constructor(private val useCase: GameUseCase, privat
 
     fun replay() {
         chronometerSeconds.value = 61
-        useCase.reset()
         gameStatus.value = GameStatus.INIT
+        useCase.reset()
         mistakeLeft.value = useCase.getMistakesLeft()
         lastNumberSelected.value = 10
         currentNumber.value = 0
