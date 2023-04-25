@@ -171,41 +171,6 @@ private fun CustomEditPlayerName(id: String, name: String, onNameChange: (String
     }
 }
 
-//@Composable
-//private fun CustomSettingsResourcesCard(
-//    modifier: Modifier = Modifier,
-//    modifierRow: Modifier = Modifier,
-//    @StringRes text: Int
-//) {
-//    Box(
-//        modifier = modifier
-//            .shadow(4.dp, RoundedCornerShape(30))
-//            .background(Brush.verticalGradient(colors = listOf(purple, purple_light)), RoundedCornerShape(30))
-//    ) {
-//        Row(
-//            verticalAlignment = Alignment.CenterVertically,
-//            modifier = modifierRow.padding(16.dp)
-//        ) {
-//
-//            Text(
-//                text = stringResource(id = text),
-//                style = MaterialTheme.typography.bodyMedium,
-//                color = Color.White,
-//                modifier = Modifier
-//                    .padding(end = 20.dp)
-//                    .weight(1f),
-//            )
-//
-//            Icon(
-//                painter = painterResource(id = R.drawable.ic_arrow_forward),
-//                contentDescription = null,
-//                tint = Color.White
-//            )
-//
-//        }
-//    }
-//}
-
 @Composable
 private fun CustomSettingsResourcesCard(
     modifier: Modifier = Modifier,

@@ -65,7 +65,7 @@ dependencies {
 
     implementation 'com.github.fernando-rauber.mylibrary:advertising:1.5'
     implementation 'com.github.fernando-rauber.mylibrary:logger:1.4.4'
-    implementation 'com.github.fernando-rauber.mylibrary:uikit:1.5.3'
+    implementation 'com.github.fernando-rauber.mylibrary:uikit:1.5.4'
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
