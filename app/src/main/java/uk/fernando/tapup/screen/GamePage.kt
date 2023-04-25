@@ -195,7 +195,7 @@ private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Un
             Text(
                 modifier = Modifier.align(Center),
                 text = "$number",
-                fontFamily = myFontKaph,
+                fontFamily = myFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 70.sp,
                 color = MaterialTheme.colorScheme.onBackground

@@ -22,7 +22,7 @@ import androidx.navigation.NavController
 import uk.fernando.advertising.component.AdBanner
 import uk.fernando.tapup.R
 import uk.fernando.tapup.navigation.Directions
-import uk.fernando.tapup.theme.myFontKaph
+import uk.fernando.tapup.theme.myFontFamily
 import uk.fernando.tapup.viewmodel.HomeViewModel
 import uk.fernando.uikit.component.MyIconButton
 import uk.fernando.uikit.component.MyImageButton
@@ -60,14 +60,14 @@ fun HomePage(
                     }
                 },
                 color = MaterialTheme.colorScheme.onBackground,
-                fontFamily = myFontKaph,
+                fontFamily = myFontFamily,
                 lineHeight = 25.sp,
                 textAlign = TextAlign.Center
             )
 
             MyImageButton(
                 modifier = Modifier
-                    .fillMaxWidth(0.7f)
+                    .fillMaxWidth(0.8f)
                     .padding(vertical = 50.dp)
                     .defaultMinSize(minHeight = 60.dp),
                 image = R.drawable.bt_purple,
@@ -78,7 +78,7 @@ fun HomePage(
 
             MyImageButton(
                 modifier = Modifier
-                    .fillMaxWidth(0.7f)
+                    .fillMaxWidth(0.8f)
                     .defaultMinSize(minHeight = 60.dp),
                 image = R.drawable.bt_purple,
                 text = stringResource(R.string.score_action).uppercase(),

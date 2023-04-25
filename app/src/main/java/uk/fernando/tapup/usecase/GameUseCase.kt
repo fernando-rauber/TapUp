@@ -5,7 +5,7 @@ import uk.fernando.logger.MyLogger
 
 class GameUseCase(private val logger: MyLogger) {
 
-    private var currentMaxNumber = 10
+    private var currentMaxNumber = 1
     private val numberList = mutableListOf<Int>()
     private var nextNumberIndex = -1
     private var mistakesLeft = 3
@@ -15,7 +15,7 @@ class GameUseCase(private val logger: MyLogger) {
     }
 
     fun reset() {
-        currentMaxNumber = 10
+        currentMaxNumber = 1
         numberList.clear()
         nextNumberIndex = -1
         mistakesLeft = 3

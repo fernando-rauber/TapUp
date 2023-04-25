@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import uk.fernando.advertising.component.AdBanner
@@ -30,7 +29,10 @@ import uk.fernando.tapup.R
 import uk.fernando.tapup.components.SimpleCard
 import uk.fernando.tapup.model.ScoreModel
 import uk.fernando.tapup.navigation.Directions
-import uk.fernando.tapup.theme.*
+import uk.fernando.tapup.theme.light_blue
+import uk.fernando.tapup.theme.light_blue2
+import uk.fernando.tapup.theme.purple
+import uk.fernando.tapup.theme.yellow
 import uk.fernando.tapup.viewmodel.ScoreViewModel
 import uk.fernando.uikit.component.MyImageButton
 
@@ -77,8 +79,8 @@ fun ScorePage(
         MyImageButton(
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .defaultMinSize(minHeight = 60.dp)
-                .padding(bottom = 16.dp),
+                .padding(bottom = 16.dp)
+                .defaultMinSize(minHeight = 60.dp),
             image = R.drawable.bt_yellow,
             text = stringResource(R.string.close_action).uppercase(),
             textColor = purple,
@@ -110,8 +112,7 @@ private fun LeadingBoard(modifier: Modifier, viewModel: ScoreViewModel) {
 
                 Text(
                     text = stringResource(R.string.global_score),
-                    fontFamily = myFontKaph,
-                    fontSize = 22.sp,
+                    style = MaterialTheme.typography.titleMedium,
                     color = purple
                 )
 
@@ -130,8 +131,7 @@ private fun LeadingBoard(modifier: Modifier, viewModel: ScoreViewModel) {
                     Text(
                         modifier = Modifier.align(Center),
                         text = stringResource(R.string.internet_required),
-                        fontFamily = myFontKaph,
-                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = purple,
                         textAlign = TextAlign.Center
                     )
@@ -162,15 +162,13 @@ private fun ScoreCard(score: ScoreModel) {
         Text(
             modifier = Modifier.weight(1f),
             text = score.name.plus(" (${score.uuid.take(6)})"),
-            fontFamily = myFontKaph,
-            fontSize = 15.sp,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
             text = score.score.toString(),
-            fontFamily = myFontKaph,
-            fontSize = 15.sp,
+            style = MaterialTheme.typography.bodyMedium,
             color = yellow.copy(.7f)
         )
     }

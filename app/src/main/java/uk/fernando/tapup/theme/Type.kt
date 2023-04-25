@@ -15,7 +15,7 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = myFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp
+        fontSize = 15.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = myFontFamily,
@@ -25,7 +25,7 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = myFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 30.sp
+        fontSize = 25.sp
     ),
     titleMedium = TextStyle(
         fontFamily = myFontFamily,
