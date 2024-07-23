@@ -9,14 +9,14 @@ plugins {
 
 android {
     namespace 'uk.fernando.tapup'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "uk.fernando.tapup"
         minSdk 26
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        targetSdk 34
+        versionCode 2
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -45,10 +45,11 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        compose true
+        compose = true
+        buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.4'
+        kotlinCompilerExtensionVersion '1.5.14'
     }
     kapt {
         correctErrorTypes = true
@@ -61,44 +62,43 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
 
-    implementation 'com.github.fernando-rauber.mylibrary:advertising:1.5'
-    implementation 'com.github.fernando-rauber.mylibrary:logger:1.4.4'
-    implementation 'com.github.fernando-rauber.mylibrary:uikit:1.5.4'
+    implementation 'com.github.fernando-rauber:advertising:1.5.6'
+    implementation 'com.github.fernando-rauber:logger:1.5.6'
+    implementation 'com.github.fernando-rauber:uikit:1.5.6'
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+    implementation platform('com.google.firebase:firebase-bom:33.1.2')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-appcheck-playintegrity'
 
     // Data Store
-    implementation "androidx.datastore:datastore:1.0.0"
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation "androidx.datastore:datastore:1.1.1"
+    implementation "androidx.datastore:datastore-preferences:1.1.1"
 
     // Compose
-    implementation platform('androidx.compose:compose-bom:2023.03.00')
+    implementation platform('androidx.compose:compose-bom:2024.06.00')
     implementation "androidx.compose.ui:ui"
     implementation 'androidx.compose.material3:material3'
     implementation "androidx.compose.ui:ui-tooling-preview"
     implementation "androidx.compose.ui:ui-tooling"
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-android-compiler:2.44"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation 'com.google.dagger:hilt-android:2.51.1'
+    kapt 'com.google.dagger:hilt-compiler:2.51.1'
+    implementation "androidx.hilt:hilt-navigation-compose:1.2.0"
 
-    implementation 'androidx.activity:activity-compose:1.7.1'
-    implementation "androidx.navigation:navigation-compose:2.5.3"
+    implementation 'androidx.activity:activity-compose:1.9.0'
+    implementation "androidx.navigation:navigation-compose:2.7.7"
 
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.3'
 
     // Test
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:1.10.2"
     testImplementation "androidx.arch.core:core-testing:2.2.0"
-    testImplementation "androidx.test.ext:truth:1.5.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "androidx.test.ext:truth:1.6.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0"
 }

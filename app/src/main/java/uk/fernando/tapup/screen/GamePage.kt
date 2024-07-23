@@ -173,7 +173,6 @@ private fun MistakesLeft(viewModel: GameViewModel) {
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Unit) {
 
@@ -181,11 +180,11 @@ private fun SlideNumbers(viewModel: GameViewModel, onNumberSelected: (Int) -> Un
         targetState = viewModel.currentNumber.value,
         modifier = Modifier.fillMaxSize(),
         transitionSpec = {
-            (slideInHorizontally { height -> height } + fadeIn() with
-                    slideOutHorizontally { height -> -height } + fadeOut()).using(
+            ((slideInHorizontally { height -> height } + fadeIn()).togetherWith(slideOutHorizontally { height -> -height } + fadeOut())).using(
                 SizeTransform(clip = false)
             )
-        }
+        },
+        label = ""
     ) { number ->
         Box(
             Modifier
